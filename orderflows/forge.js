@@ -84,7 +84,7 @@ async function showPriceList(interaction){
 
   const embed = new EmbedBuilder()
     .setTitle('⛏️ The Forge')
-    .setColor(0xE67E22)
+    .setColor(0x5865F2)
     .setDescription(`
 🎮 **GAMEPASS**
 ${gamepass.map(i=>i.label).join('\n') || '*Unavailable*'}
@@ -208,7 +208,7 @@ async function showCategorySelect(interaction){
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Produk 🛍️')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('🛒 Pilih kategori yang ingin di beli 🛒');
 
   const select = new StringSelectMenuBuilder()
@@ -243,7 +243,7 @@ async function showPackageSelect(interaction,category){
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Produk 🛍️')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('🛒 Pilih item yang di inginkan');
 
   const select = new StringSelectMenuBuilder()
@@ -269,7 +269,7 @@ async function showSummary(interaction){
 
   const embed = new EmbedBuilder()
     .setTitle(' 🛍️ Detail Pembelian 🛍️')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
     `📋 **Produk:** The Forge\n` +
     `👤 **Username:** ${s.username}\n` +
