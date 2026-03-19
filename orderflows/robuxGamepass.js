@@ -244,7 +244,7 @@ async function handleInteraction(interaction) {
 async function showStep3(interaction) {
 
   const embed = new EmbedBuilder()
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription(' ⚠️ Pilih jenis pembelian robux Before tax / After tax ⚠️');
 
   const row = new ActionRowBuilder().addComponents(
@@ -273,7 +273,7 @@ async function showSummary(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
     `📋 **Produk:** Robux Via Gamepass\n` +
     `👤 **Username:** ${s.username}\n` +
