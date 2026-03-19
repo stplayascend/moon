@@ -45,9 +45,10 @@ module.exports = {
 
       const g = interaction.options.getString('game').toLowerCase().trim();
       const c = interaction.options.getString('category').toLowerCase().trim();
-      const v = interaction.options.getString('item').toLowerCase().trim();
+      const rawInput = interaction.options.getString('item');
 
-      let label = v;
+      const v = rawInput.toLowerCase().trim(); // for DB matching
+      let label = rawInput.trim(); // 🔥 keep original format
 
       const base = items[g]?.[c] || [];
       const found = base.find(i => i.value === v);
