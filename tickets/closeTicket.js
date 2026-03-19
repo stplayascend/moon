@@ -169,7 +169,7 @@ async function handleCloseModal(interaction) {
 
           const publicEmbed = new EmbedBuilder()
             .setTitle('📁 Ticket Transcript')
-            .setColor(0xED4245)
+            .setColor(0xFEE75C)
             .setThumbnail('attachment://logo.png') // ✅ correct
             .addFields(
               { name: 'Ticket', value: channel.name, inline: true },
