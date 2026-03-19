@@ -90,7 +90,7 @@ async function showPriceList(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🍀 Boost x8 Fish It – Price List')
-    .setColor(0x2ECC71)
+    .setColor(0x5865F2)
     .setDescription(`
 **SERVER LUCK BOOSTER VIA GIFT :**
 ${giftText}
@@ -197,7 +197,7 @@ async function showMethodSelect(interaction){
 
   const embed=new EmbedBuilder()
     .setTitle('🛍️ Method Selection 🛍️')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('🛒 Pilih metode boost yang di inginkan ');
 
   const select=new StringSelectMenuBuilder()
@@ -289,7 +289,7 @@ async function showPackageSelect(interaction){
 
   const embed=new EmbedBuilder()
     .setTitle(' 🍀x8 Boost🍀')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('🍀Pilih durasi boost x8 :');
 
   const select=new StringSelectMenuBuilder()
@@ -320,7 +320,7 @@ async function showSummary(interaction){
 
   const embed=new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
     `📋 **Produk:** Boost x8 Fish It\n` +
     `👤 **Username:** ${s.username}\n` +
