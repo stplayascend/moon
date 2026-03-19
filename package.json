@@ -1,0 +1,16 @@
+{
+  "name": "moonblox-bot",
+  "version": "1.0.0",
+  "description": "MoonBlox Discord Order Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "deploy": "node deploy-commands.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "discord-html-transcripts": "^3.2.0",
+    "discord.js": "^14.25.1",
+    "dotenv": "^16.3.1"
+  }
+}

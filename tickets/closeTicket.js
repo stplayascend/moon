@@ -1,0 +1,254 @@
+const {
+  PermissionFlagsBits,
+  EmbedBuilder,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ActionRowBuilder,
+  AttachmentBuilder
+} = require('discord.js');
+
+const { createTranscript } = require('discord-html-transcripts');
+const config = require('../config');
+const { closeTicketRecord } = require('../database/supabase');
+
+/**
+ * STEP 1: Button Click → Show Modal
+ */
+async function handleClose(interaction) {
+
+  const guild = interaction.guild;
+
+  const member = await guild.members.fetch(interaction.user.id);
+
+  const allowedRoles = [
+    config.adminRoleId,
+    config.robuxAdminRoleId,
+    config.heartopiaAdminRoleId,
+    config.gamesAdminRoleId,
+  ].filter(Boolean);
+
+  const isStaff = member.roles.cache.some(role =>
+    allowedRoles.includes(role.id)
+  );
+
+  if (!isStaff) {
+    return interaction.reply({
+      content: '❌ Only staff members can close tickets.',
+      ephemeral: true,
+    });
+  }
+
+  const modal = new ModalBuilder()
+    .setCustomId('close_ticket_modal')
+    .setTitle('Close Ticket');
+
+  const reasonInput = new TextInputBuilder()
+    .setCustomId('close_reason')
+    .setLabel('Reason for closing')
+    .setStyle(TextInputStyle.Paragraph)
+    .setPlaceholder('Enter the reason...')
+    .setRequired(true);
+
+  const row = new ActionRowBuilder().addComponents(reasonInput);
+
+  modal.addComponents(row);
+
+  await interaction.showModal(modal);
+}
+
+/**
+ * STEP 2: Modal Submit → Close Ticket
+ */
+async function handleCloseModal(interaction) {
+
+  if (interaction.customId !== 'close_ticket_modal') return;
+
+  const channel = interaction.channel;
+  const guild = interaction.guild;
+
+  const reason = interaction.fields.getTextInputValue('close_reason');
+    // ── Get Open Time ─────────────────────────
+  let openedAt = 'Unknown';
+
+  try {
+    const data = JSON.parse(channel.topic);
+    if (data.openedAt) {
+      openedAt = `<t:${Math.floor(new Date(data.openedAt).getTime() / 1000)}:F>`;
+    }
+  } catch {}
+
+  const closedAt = `<t:${Math.floor(Date.now() / 1000)}:F>`;
+
+  await interaction.reply({
+    content: '🔒 Closing ticket and generating transcript...',
+    ephemeral: true,
+  });
+
+  const member = await guild.members.fetch(interaction.user.id);
+
+  // ── Count Messages ─────────────────────────
+  let adminCount = 0;
+  let userCount = 0;
+
+  const allowedRoles = [
+    config.adminRoleId,
+    config.robuxAdminRoleId,
+    config.heartopiaAdminRoleId,
+    config.gamesAdminRoleId,
+  ].filter(Boolean);
+
+  let lastId;
+
+  while (true) {
+    const messages = await channel.messages.fetch({
+      limit: 100,
+      before: lastId,
+    });
+
+    if (messages.size === 0) break;
+
+    for (const msg of messages.values()) {
+      if (!msg.member) continue;
+
+      const isAdmin = msg.member.roles.cache.some(role =>
+        allowedRoles.includes(role.id)
+      );
+
+      if (isAdmin) adminCount++;
+      else userCount++;
+    }
+
+    lastId = messages.last().id;
+  }
+  // ── Generate transcript ─────────────────────────
+  let transcriptAttachment;
+
+  try {
+    transcriptAttachment = await createTranscript(channel, {
+      limit: -1,
+      returnType: 'attachment',
+      filename: `transcript-${channel.name}.html`,
+      saveImages: false,
+      poweredBy: false,
+    });
+  } catch (err) {
+    console.error('[Transcript Error]', err);
+    transcriptAttachment = null;
+  }
+
+  // ── Send transcript to ADMIN log channel ───────────────
+  const logChannel = guild.channels.cache.get(config.transcriptLogChannelId);
+
+  if (logChannel) {
+    try {
+      const logEmbed = new EmbedBuilder()
+        .setTitle('📁 Ticket Transcript')
+        .setColor(0xED4245)
+        .addFields(
+          { name: 'Ticket', value: channel.name, inline: true },
+          { name: 'Closed by', value: interaction.user.tag, inline: true },
+          { name: 'Reason', value: reason || 'No reason provided' },
+          { name: '📅 Opened At', value: openedAt },
+          { name: '📅 Closed At', value: closedAt },
+          { name: '👨‍💼 Admin Messages', value: `${adminCount}`, inline: true },
+          { name: '👤 User Messages', value: `${userCount}`, inline: true },
+        )
+        .setTimestamp();
+
+      await logChannel.send({
+        embeds: [logEmbed],
+        files: transcriptAttachment ? [transcriptAttachment] : [],
+      });
+
+      // ── Send to PUBLIC transcript channel (NO HTML) ───────────────
+      const publicChannel = guild.channels.cache.get(config.publicTranscriptChannelId);
+
+      if (publicChannel) {
+        try {
+
+          const publicEmbed = new EmbedBuilder()
+            .setTitle('📁 Ticket Transcript')
+            .setColor(0xED4245)
+            .setThumbnail('attachment://logo.png') // ✅ correct
+            .addFields(
+              { name: 'Ticket', value: channel.name, inline: true },
+              { name: 'Closed by', value: interaction.user.tag, inline: true },
+              { name: 'Reason', value: reason || 'No reason provided' },
+              { name: '📅 Opened At', value: openedAt },
+              { name: '📅 Closed At', value: closedAt },
+              { name: '👨‍💼 Admin Messages', value: `${adminCount}`, inline: true },
+              { name: '👤 User Messages', value: `${userCount}`, inline: true },
+            )
+            .setTimestamp();
+
+          await publicChannel.send({
+            embeds: [publicEmbed],
+            files: [
+              new AttachmentBuilder('./logo.png') // ✅ REQUIRED
+            ]
+          });
+
+        } catch (err) {
+          console.error('[Public Transcript Error]', err);
+        }
+      }
+
+    } catch (err) {
+      console.error('[Transcript Log Error]', err);
+    }
+  }
+
+  // ── Update database ──────────────────────────────
+  try {
+    await closeTicketRecord(channel.id);
+  } catch (err) {
+    console.error('[Supabase Close Error]', err);
+  }
+
+  // ── Lock customer access ─────────────────────────
+  for (const [id, overwrite] of channel.permissionOverwrites.cache) {
+
+    const target = await guild.members.fetch(id).catch(() => null);
+    if (!target) continue;
+
+    const isAdmin = allowedRoles.some(roleId =>
+      target.roles.cache.has(roleId)
+    );
+
+    if (
+      overwrite.allow.has(PermissionFlagsBits.ViewChannel) &&
+      !isAdmin
+    ) {
+      await channel.permissionOverwrites.edit(id, {
+        SendMessages: false,
+        ViewChannel: false,
+      }).catch(() => {});
+    }
+  }
+
+  // ── Closed embed ─────────────────────────────────
+  const closedEmbed = new EmbedBuilder()
+    .setTitle('🔒 Ticket Closed')
+    .setColor(0xED4245)
+    .setDescription(
+      `This ticket was closed by **${interaction.user.tag}**.\nReason: **${reason}**\n\nDeleting channel in **5 seconds**...`
+    )
+    .setTimestamp();
+
+  await channel.send({ embeds: [closedEmbed] });
+
+  // ── Delete channel ───────────────────────────────
+  setTimeout(async () => {
+    try {
+      await channel.delete(`Ticket closed by ${interaction.user.tag}`);
+    } catch (err) {
+      console.error('[Channel Delete Error]', err);
+    }
+  }, 5000);
+}
+
+module.exports = {
+  handleClose,
+  handleCloseModal,
+};
