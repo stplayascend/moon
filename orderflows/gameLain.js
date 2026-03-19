@@ -19,7 +19,7 @@ async function showPriceList(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🎮 Game Lain – Custom Order')
-    .setColor(0x3498DB)
+    .setColor(0x5865F2)
     .setDescription(`
 🎫 Mohon beritahu kamu detail order map/jumlah robuxnya, admin akan berikan Harga di ticket 🎫.
 `)
@@ -93,7 +93,7 @@ async function showSummary(interaction) {
   const s     = session.getSession(interaction.user.id);
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
     `📋 **Produk:** Game Lain (Custom)\n` +
     `👤 **Username:** ${s.username}\n` +
