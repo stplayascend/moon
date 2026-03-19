@@ -63,7 +63,7 @@ async function showPriceList(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🐟Fish it - Price List')
-    .setColor(0x1ABC9C)
+    .setColor(0x5865F2)
     .setDescription(
 `**GAMEPASS :**
 ${gamepass.map(i => i.label).join('\n') || '*Currently unavailable*'}
@@ -183,7 +183,7 @@ async function showCategorySelect(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛒 Pilih kategori yang di inginkan 🛒')
-    .setColor(0xFEE75C);
+    .setColor(0x5865F2);
 
   const select = new StringSelectMenuBuilder()
     .setCustomId('fi_cat_select')
@@ -235,7 +235,7 @@ async function showSummary(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
       `📋 **Produk:** Fish It\n` +
       `👤 **Username:** ${s.username}\n` +
