@@ -130,11 +130,6 @@ async function addEnabledItem(game, category, label, value, position) {
     throw error;
   }
 }
-
-  if (error) {
-    console.error('[Supabase] addEnabledItem error:', error.message);
-  }
-}
 /* ─────────────────────────────
    TICKETS
 ──────────────────────────── */
