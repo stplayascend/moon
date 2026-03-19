@@ -175,7 +175,7 @@ async function showStep1(interaction){
 
   const embed = new EmbedBuilder()
   .setTitle(' ⚠️ Mohon di baca dan pahami ⚠️')
-  .setColor(0xFEE75C)
+  .setColor(0x5865F2)
   .setDescription('Sudah mengerti topup Robux Via login?');
 
   const row = new ActionRowBuilder().addComponents(
@@ -202,7 +202,7 @@ async function showStep2(interaction){
 
   const embed = new EmbedBuilder()
     .setTitle(' ⚠️ Mohon di baca dan pahami ⚠️')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('Top up Robux via login dapat Merubah region');
 
   const row = new ActionRowBuilder().addComponents(
@@ -244,7 +244,7 @@ async function showStep3(interaction){
 
   const embed = new EmbedBuilder()
     .setTitle('🔎 Detail Paket 🔎')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('👉 Pilih jumlah robux / paket');
 
   const select = new StringSelectMenuBuilder()
@@ -267,7 +267,7 @@ async function showSummary(interaction){
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
     `📋 **Produk:** Robux Via Login\n` +
     `📦 **Paket:** ${s.package}`
