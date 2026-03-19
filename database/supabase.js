@@ -129,13 +129,18 @@ async function addEnabledItem(game, category, label, value) {
   // 🔥 STEP 2: insert with position
   const { error } = await supabase
     .from('enabled_items')
-    .upsert({
-      game: g,
-      category: c,
-      label,
-      value: v,
-      position: nextPosition // ✅ THIS IS THE KEY FIX
-    });
+    .upsert(
+  {
+    game: g,
+    category: c,
+    label,
+    value: v,
+    position: nextPosition
+  },
+  {
+    onConflict: 'game,category,value' // ✅ THIS FIXES YOUR ERROR
+  }
+);
 
   if (error) {
     console.error('[Supabase] addEnabledItem error:', error.message);
