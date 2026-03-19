@@ -126,7 +126,7 @@ async function showSummary(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️y')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
     `📄 **Produk:** ⚡ Robux Via Group Payout\n` +
     `👤 **Username:** ${s.username}\n` +
