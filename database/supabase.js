@@ -89,7 +89,8 @@ async function getEnabledItems(game, category) {
     .from('enabled_items')
     .select('*')
     .eq('game', g)
-    .eq('category', c);
+    .eq('category', c)
+    .order('position', { ascending: true }); // ✅ FIX
 
   if (error) {
     console.error('[Supabase] getEnabledItems error:', error.message);
@@ -98,7 +99,8 @@ async function getEnabledItems(game, category) {
 
   return data.map(i => ({
     label: i.label,
-    value: norm(i.value)
+    value: norm(i.value),
+    position: i.position // ✅ keep position
   }));
 }
 
@@ -108,20 +110,37 @@ async function addEnabledItem(game, category, label, value) {
   const c = norm(category);
   const v = norm(value);
 
+  // 🔥 STEP 1: get last position (per game + category)
+  const { data: lastItem, error: posError } = await supabase
+    .from('enabled_items')
+    .select('position')
+    .eq('game', g)
+    .eq('category', c)
+    .order('position', { ascending: false })
+    .limit(1);
+
+  if (posError) {
+    console.error('[Supabase] position fetch error:', posError.message);
+    return;
+  }
+
+  const nextPosition = lastItem?.[0]?.position + 1 || 1;
+
+  // 🔥 STEP 2: insert with position
   const { error } = await supabase
     .from('enabled_items')
     .upsert({
       game: g,
       category: c,
       label,
-      value: v
+      value: v,
+      position: nextPosition // ✅ THIS IS THE KEY FIX
     });
 
   if (error) {
     console.error('[Supabase] addEnabledItem error:', error.message);
   }
 }
-
 /* ─────────────────────────────
    TICKETS
 ──────────────────────────── */
