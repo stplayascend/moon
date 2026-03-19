@@ -104,43 +104,32 @@ async function getEnabledItems(game, category) {
   }));
 }
 
-async function addEnabledItem(game, category, label, value) {
+async function addEnabledItem(game, category, label, value, position) {
 
   const g = norm(game);
   const c = norm(category);
   const v = norm(value);
 
-  // 🔥 STEP 1: get last position (per game + category)
-  const { data: lastItem, error: posError } = await supabase
-    .from('enabled_items')
-    .select('position')
-    .eq('game', g)
-    .eq('category', c)
-    .order('position', { ascending: false })
-    .limit(1);
-
-  if (posError) {
-    console.error('[Supabase] position fetch error:', posError.message);
-    return;
-  }
-
-  const nextPosition = lastItem?.[0]?.position + 1 || 1;
-
-  // 🔥 STEP 2: insert with position
   const { error } = await supabase
     .from('enabled_items')
     .upsert(
-  {
-    game: g,
-    category: c,
-    label,
-    value: v,
-    position: nextPosition
-  },
-  {
-    onConflict: 'game,category,value' // ✅ THIS FIXES YOUR ERROR
+      {
+        game: g,
+        category: c,
+        label,
+        value: v,
+        position // ✅ USE PASSED VALUE
+      },
+      {
+        onConflict: 'game,category,value'
+      }
+    );
+
+  if (error) {
+    console.error('[Supabase] addEnabledItem error:', error.message);
+    throw error;
   }
-);
+}
 
   if (error) {
     console.error('[Supabase] addEnabledItem error:', error.message);
