@@ -47,8 +47,19 @@ module.exports = {
       const c = interaction.options.getString('category').toLowerCase().trim();
       const rawInput = interaction.options.getString('item');
 
-      const v = rawInput.toLowerCase().trim(); // for DB matching
-      let label = rawInput.trim(); // 🔥 keep original format
+      // extract a clean value like "azure_10"
+    const numberMatch = rawInput.match(/\(\s*(\d+)\s*\)/);
+    
+    let v = rawInput.toLowerCase().replace(/\s+/g, '_');
+    
+    if (numberMatch) {
+      v = `${rawInput.toLowerCase().split('(')[0].trim().replace(/\s+/g, '_')}_${numberMatch[1]}`;
+    } // for DB matching
+      let label = rawInput
+      .replace(/\(\s+/g, '(')   // remove space after (
+      .replace(/\s+\)/g, ')')   // remove space before )
+      .replace(/\s+/g, ' ')     // normalize spaces
+      .trim(); // 🔥 keep original format
 
       const base = items[g]?.[c] || [];
       const found = base.find(i => i.value === v);
