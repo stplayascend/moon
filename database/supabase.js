@@ -180,6 +180,7 @@ async function closeTicketRecord(channelId) {
 }
 
 module.exports = {
+  supabase, // ✅ ADD THIS
   getDisabledItems,
   getEnabledItems,
   disableItem,
