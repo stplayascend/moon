@@ -3,7 +3,8 @@ const items = require('../../data/items');
 
 const { 
   enableItem, 
-  addEnabledItem 
+  addEnabledItem,
+  supabase
 } = require('../../database/supabase');
 
 module.exports = {
@@ -39,51 +40,44 @@ module.exports = {
     ),
 
   async execute(interaction) {
-  try {
-    // ✅ FIX 1: defer immediately (VERY IMPORTANT)
-    await interaction.deferReply({ flags: 64 });
+    try {
+      await interaction.deferReply({ flags: 64 });
 
-    const game = interaction.options.getString('game');
-    const category = interaction.options.getString('category');
-    const itemValue = interaction.options.getString('item');
+      const g = interaction.options.getString('game').toLowerCase().trim();
+      const c = interaction.options.getString('category').toLowerCase().trim();
+      const v = interaction.options.getString('item').toLowerCase().trim();
 
-    // 🔥 Normalize
-    const g = game.toLowerCase().trim();
-    const c = category.toLowerCase().trim();
-    const v = itemValue.toLowerCase().trim();
+      let label = v;
 
-    let label = itemValue;
+      const base = items[g]?.[c] || [];
+      const found = base.find(i => i.value === v);
 
-    const base = items[g]?.[c] || [];
-    const found = base.find(i => i.value === v);
+      if (found) label = found.label;
 
-    if (found) {
-      label = found.label;
-    }
+      // ✅ ONLY count within SAME game + category
+      const { data: lastItem } = await supabase
+        .from('enabled_items')
+        .select('position')
+        .eq('game', g)
+        .eq('category', c)
+        .order('position', { ascending: false })
+        .limit(1);
 
-    // ⏳ DB calls (these were causing timeout)
-    await enableItem(g, c, v);
-    await addEnabledItem(g, c, label, v);
+      const nextPosition = lastItem?.[0]?.position + 1 || 1;
 
-    // ✅ FIX 2: use editReply instead of reply
-    await interaction.editReply({
-      content: `✅ Enabled **${label}**`
-    });
+      await enableItem(g, c, v);
+      await addEnabledItem(g, c, label, v, nextPosition);
 
-  } catch (err) {
-    console.error('[Enable Command Error]', err);
+      await interaction.editReply({
+        content: `✅ Enabled **${label}** (Position: ${nextPosition} in ${g}/${c})`
+      });
 
-    // ✅ Safe error handling
-    if (interaction.deferred || interaction.replied) {
+    } catch (err) {
+      console.error('[Enable Error]', err);
+
       await interaction.editReply({
         content: '❌ Failed to enable item'
       });
-    } else {
-      await interaction.reply({
-        content: '❌ Failed to enable item',
-        flags: 64
-      });
     }
   }
-}
 };
