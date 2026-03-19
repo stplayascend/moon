@@ -21,7 +21,7 @@ async function showPriceList(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('💎 Diamond Heartopia - Price List')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(`
 OPEN TOPUP **DIAMOND HEARTOPIA VIA LOGIN ONLY**  
 LEGAL 1000% WITH RECEIPT.
@@ -153,7 +153,7 @@ async function showServerButtons(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🌍 Server')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('✨ Pilih server akunmu');
 
   const row = new ActionRowBuilder().addComponents(
@@ -171,7 +171,7 @@ async function showLoginMethodButtons(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛒Metode Login')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('✨ Pilih metode login akunmu');
 
   const row = new ActionRowBuilder().addComponents(
@@ -251,7 +251,7 @@ async function showPackageSelect(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Produk 🛍️')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription(' 🛒 Pilih paket diamond/pass yang di inginkan');
 
   const select = new StringSelectMenuBuilder()
@@ -270,7 +270,7 @@ async function showSummary(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
     `📋 **Produk:** Diamond Heartopia\n` +
     `👤 **Username:** ${s.username}\n` +
