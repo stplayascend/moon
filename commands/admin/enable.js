@@ -47,14 +47,22 @@ module.exports = {
       const c = interaction.options.getString('category').toLowerCase().trim();
       const rawInput = interaction.options.getString('item');
 
-      // extract a clean value like "azure_10"
-    const numberMatch = rawInput.match(/\(\s*(\d+)\s*\)/);
-    
-    let v = rawInput.toLowerCase().replace(/\s+/g, '_');
-    
-    if (numberMatch) {
-      v = `${rawInput.toLowerCase().split('(')[0].trim().replace(/\s+/g, '_')}_${numberMatch[1]}`;
-    } // for DB matching
+      // 🔥 SAFE value generator
+      const numberMatch = rawInput.match(/\(\s*(\d+)\s*\)/);
+      
+      // clean base name (before bracket)
+      const baseName = rawInput
+        .split('(')[0]
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '') // remove symbols
+        .replace(/\s+/g, '_')
+        .trim();
+      
+      let v = baseName;
+      
+      if (numberMatch) {
+        v = `${baseName}_${numberMatch[1]}`;
+      }
       let label = rawInput
       .replace(/\(\s+/g, '(')   // remove space after (
       .replace(/\s+\)/g, ')')   // remove space before )
