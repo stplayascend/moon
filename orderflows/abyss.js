@@ -79,7 +79,7 @@ async function showPriceList(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🔮Abyss Gift Gamepass Order - Price List')
-    .setColor(0x9B59B6)
+    .setColor(0x5865F2)
     .setDescription(list.map(i => i.label).join('\n') || '*Unavailable*')
     .setImage('attachment://pricing.png')
     .setFooter({ text: 'MoonBlox • Click Order to proceed' });
@@ -196,7 +196,7 @@ async function showItemSelect(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Produk 🛍️')
-    .setColor(0xFEE75C)
+    .setColor(0x5865F2)
     .setDescription('🛒 Pilih item yang di inginkan');
 
   const select = new StringSelectMenuBuilder()
@@ -223,7 +223,7 @@ async function showSummary(interaction) {
 
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
-    .setColor(0x57F287)
+    .setColor(0x5865F2)
     .setDescription(
     `📋 **Produk:** Abyss\n` +
     `👤 **Username:** ${s.username}\n` +
