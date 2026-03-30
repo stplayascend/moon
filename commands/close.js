@@ -27,6 +27,7 @@ module.exports = {
       const msg = await channel.messages.fetch(panel.messageId);
 
       const disabled = await getDisabledButtons();
+      console.log("RAW DISABLED:", disabled);
       console.log("PANEL:", global.panelData);  
       const clean = disabled.map(d =>
       d.toLowerCase().replace(/\s+/g, '_').trim()
