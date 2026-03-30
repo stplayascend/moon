@@ -17,9 +17,7 @@ module.exports = {
 
   async execute(interaction) {
     const disabled = await getDisabledButtons();
-    const clean = disabled.map(d =>
-    d.toLowerCase().replace(/\s+/g, '_').trim()
-  );
+    const clean = disabled;
     const banner = new AttachmentBuilder('./pricing.png');
 
     const purchaseEmbed = new EmbedBuilder()
