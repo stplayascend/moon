@@ -96,8 +96,13 @@ async function handleInteraction(interaction) {
   const id = interaction.customId;
   const userId = interaction.user.id;
 
-  if (id === 'fi_order') {
-    session.setSession(userId, { flow: FLOW, step: 1 });
+    if (id === 'fi_order') {
+    session.setSession(userId, { 
+      flow: FLOW, 
+      step: 1,
+      cart: []
+    });
+  
     return showUsernameModal(interaction);
   }
 
@@ -133,14 +138,36 @@ async function handleInteraction(interaction) {
     const allItems = await loadItems('fishit', s.category);
     const item = allItems.find(i => i.value === selected);
 
-    session.updateSession(userId, {
-      step: 4,
+    const userSession = session.getSession(userId);
+
+    if (!userSession.cart) userSession.cart = [];
+    
+    userSession.cart.push({
+      category: userSession.category,
       item: item?.label ?? selected
     });
-
-    return showSummary(interaction);
+    
+    session.updateSession(userId, {
+      cart: userSession.cart,
+      step: 'add_more'
+    });
+    
+    return askAddMore(interaction);
   }
+  if (id === 'fi_add_yes') {
 
+  session.updateSession(userId, {
+    step: 2,
+    category: null,
+    item: null
+  });
+
+  return showCategorySelect(interaction);
+}
+
+if (id === 'fi_add_no') {
+  return showSummary(interaction);
+}
   if (id === 'fi_create_ticket')
     return createTicket(interaction);
 
@@ -155,7 +182,26 @@ async function handleInteraction(interaction) {
     });
   }
 }
+async function askAddMore(interaction) {
 
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId('fi_add_yes')
+      .setLabel('Add More Items')
+      .setStyle(ButtonStyle.Success),
+
+    new ButtonBuilder()
+      .setCustomId('fi_add_no')
+      .setLabel('Continue')
+      .setStyle(ButtonStyle.Danger)
+  );
+
+  return interaction.update({
+    content: 'Do you want to add more items?',
+    embeds: [],
+    components: [row]
+  });
+}
 /* ───────────────────────────────────── */
 
 async function showUsernameModal(interaction) {
@@ -233,14 +279,19 @@ async function showSummary(interaction) {
 
   const s = session.getSession(interaction.user.id);
 
+  let itemsText = "";
+
+  (s.cart || []).forEach((entry, i) => {
+    itemsText += `\n${i + 1}. ${entry.category} → ${entry.item}`;
+  });
+
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
     .setColor(0x5865F2)
     .setDescription(
       `📋 **Produk:** Fish It\n` +
       `👤 **Username:** ${s.username}\n` +
-      `🛒 **Kategori:** ${s.category}\n` +
-      `🎮 **Items:** ${s.item}`
+      `🛒 **Items:** ${itemsText}`
     );
 
   const row = new ActionRowBuilder().addComponents(
@@ -269,11 +320,16 @@ async function createTicket(interaction) {
   const { createTicket: openTicket } = require('../tickets/createTicket');
   const s = session.getSession(interaction.user.id);
 
+  let itemsText = "";
+
+  (s.cart || []).forEach((entry, i) => {
+    itemsText += `\n${i + 1}. ${entry.category} → ${entry.item}`;
+  });
+
   const summary =
 `**📋 Produk:** Fish It
 **👤 Username:** ${s.username}
-**🛒 Kategori:** ${s.category}
-**🎮 Items:** ${s.item}`;
+**🛒 Items:** ${itemsText}`;
 
   const instruction =
 `📌** Instruksi:**
