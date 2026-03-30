@@ -116,24 +116,28 @@ ${cashpack.map(i=>i.label).join('\n') || '*Unavailable*'}
   });
 
 }
-async function askAddMore(interaction){
+async function askAddMore(interaction) {
+
+  const embed = new EmbedBuilder()
+    .setTitle('🛒 Tambah Item?')
+    .setColor(0x5865F2);
 
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
-      .setCustomId('fo_add_yes')
-      .setLabel('Add More Items')
-      .setStyle(ButtonStyle.Success),
+      .setCustomId('fi_add_yes')
+      .setLabel('Tambah Item')
+      .setStyle(ButtonStyle.Primary), // 🔵 BLUE
 
     new ButtonBuilder()
-      .setCustomId('fo_add_no')
-      .setLabel('Continue')
-      .setStyle(ButtonStyle.Danger)
+      .setCustomId('fi_add_no')
+      .setLabel('Create Ticket')
+      .setStyle(ButtonStyle.Primary) // 🔵 BLUE
   );
 
   return interaction.update({
-    content:'Do you want to add more items?',
-    embeds:[],
-    components:[row]
+    content: '',
+    embeds: [embed],
+    components: [row]
   });
 }
 
