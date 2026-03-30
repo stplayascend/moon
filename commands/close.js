@@ -55,7 +55,7 @@ module.exports = {
         components: [row1, row2, row3, row4]
       });
     }
-
+    console.log("RAW DISABLED:", disabled);
     await interaction.reply({
       content: `❌ Disabled: ${btn}`,
       ephemeral: true
