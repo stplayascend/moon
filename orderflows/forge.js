@@ -160,7 +160,24 @@ async function handleInteraction(interaction){
     cart:[]
   });
 
-  return showCategorySelect(interaction);
+  // ✅ ACK FIRST (IMPORTANT)
+  await interaction.deferReply({ ephemeral: true });
+
+  const embed = new EmbedBuilder()
+    .setTitle('🛍️ Detail Produk 🛍️')
+    .setColor(0x5865F2)
+    .setDescription('🛒 Pilih kategori yang ingin di beli 🛒');
+
+  const select = new StringSelectMenuBuilder()
+    .setCustomId('fo_cat_select')
+    .setPlaceholder('Pilih kategori...')
+    .addOptions(items.forge.categories);
+
+  // ✅ THIS REPLACES UI (what you want)
+  return interaction.editReply({
+    embeds:[embed],
+    components:[new ActionRowBuilder().addComponents(select)]
+  });
 }
 
 
