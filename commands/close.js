@@ -14,6 +14,12 @@ module.exports = {
     ),
 
   async execute(interaction) {
+    if (!interaction.member.permissions.has('Administrator')) {
+    return interaction.reply({
+      content: '❌ You are not allowed to use this command.',
+      ephemeral: true
+    });
+  }
 
     const btn = interaction.options.getString('button');
 
