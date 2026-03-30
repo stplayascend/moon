@@ -187,13 +187,13 @@ async function getDisabledButtons() {
     return [];
   }
 
-  return data.map(r => r.button);
+  return data.map(r => r.button.toLowerCase().trim());
 }
 
 async function disableButton(button) {
   const { error } = await supabase
     .from('disabled_buttons')
-    .upsert({ button });
+    .upsert({ button: button.toLowerCase().trim() });
 
   if (error) {
     console.error('[Supabase] disableButton error:', error.message);
@@ -207,7 +207,7 @@ async function enableButton(button) {
   const { error } = await supabase
     .from('disabled_buttons')
     .delete()
-    .eq('button', button);
+    .eq('button', button.toLowerCase().trim());
 
   if (error) {
     console.error('[Supabase] enableButton error:', error.message);
