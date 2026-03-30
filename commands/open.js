@@ -7,7 +7,6 @@ module.exports = {
     .setDescription('Enable a panel button')
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption(opt =>
-    .addStringOption(opt =>
     opt.setName('button')
       .setDescription('Select button')
       .setRequired(true)
