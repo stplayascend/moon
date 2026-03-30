@@ -173,6 +173,49 @@ async function closeTicketRecord(channelId) {
 
   return true;
 }
+/* ─────────────────────────────
+   DISABLED PANEL BUTTONS
+──────────────────────────── */
+
+async function getDisabledButtons() {
+  const { data, error } = await supabase
+    .from('disabled_buttons')
+    .select('button');
+
+  if (error) {
+    console.error('[Supabase] getDisabledButtons error:', error.message);
+    return [];
+  }
+
+  return data.map(r => r.button);
+}
+
+async function disableButton(button) {
+  const { error } = await supabase
+    .from('disabled_buttons')
+    .upsert({ button });
+
+  if (error) {
+    console.error('[Supabase] disableButton error:', error.message);
+    return false;
+  }
+
+  return true;
+}
+
+async function enableButton(button) {
+  const { error } = await supabase
+    .from('disabled_buttons')
+    .delete()
+    .eq('button', button);
+
+  if (error) {
+    console.error('[Supabase] enableButton error:', error.message);
+    return false;
+  }
+
+  return true;
+}
 
 module.exports = {
   supabase, // ✅ ADD THIS
