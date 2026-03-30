@@ -146,7 +146,9 @@ async function handleInteraction(interaction){
   const id = interaction.customId;
   const userId = interaction.user.id;
 
-  
+  if(id === 'fo_order'){
+  return showUsernameModal(interaction);
+}
   if(interaction.isModalSubmit() && id==='fo_username_modal'){
 
   const username = interaction.fields.getTextInputValue('fo_username');
@@ -161,11 +163,6 @@ async function handleInteraction(interaction){
   return showCategorySelect(interaction);
 }
 
-  if(id==='fo_username_modal'){
-    const username = interaction.fields.getTextInputValue('fo_username');
-    session.updateSession(userId,{step:2,username});
-    return showCategorySelect(interaction);
-  }
 
   if(id==='fo_cat_select'){
     const category = interaction.values[0];
@@ -269,11 +266,17 @@ async function showCategorySelect(interaction){
     ephemeral:true
   };
 
-  if(interaction.isButton()){
-    return interaction.update(payload); // ✅ replace
-  } else {
-    return interaction.reply(payload);  // modal case
+  // ✅ HANDLE ALL TYPES SAFELY
+  if (interaction.deferred || interaction.replied) {
+    return interaction.followUp(payload);
   }
+
+  if (interaction.isButton() || interaction.isStringSelectMenu()) {
+    return interaction.update(payload);
+  }
+
+  // ✅ modal submit case
+  return interaction.reply(payload);
 }
 
 /* =================================
