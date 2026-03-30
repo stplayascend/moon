@@ -7,22 +7,12 @@ module.exports = {
     .setDescription('Enable a panel button')
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption(opt =>
+    .addStringOption(opt =>
     opt.setName('button')
       .setDescription('Select button')
       .setRequired(true)
       .setAutocomplete(true)
-        .addChoices(
-          { name: 'Robux Login', value: 'robux_login' },
-          { name: 'Gamepass', value: 'robux_gamepass' },
-          { name: 'Group Payout', value: 'robux_group' },
-          { name: 'Fish It', value: 'fishit' },
-          { name: 'Boost Fish It', value: 'boost_fishit' },
-          { name: 'Forge', value: 'forge' },
-          { name: 'Abyss', value: 'abyss' },
-          { name: 'Sawah Indo', value: 'sawah' },
-          { name: 'Game Lain', value: 'game_lain' },
-          { name: 'Heartopia', value: 'heartopia' }
-        )
+  )
     ),
 
   async execute(interaction) {
