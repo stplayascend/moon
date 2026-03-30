@@ -251,11 +251,18 @@ async function showCategorySelect(interaction) {
     .setPlaceholder('Pilih kategori...')
     .addOptions(items.sawahIndo.categories);
 
-  return interaction.reply({
+  if (interaction.deferred || interaction.replied) {
+  return interaction.followUp({
     embeds: [embed],
     components: [new ActionRowBuilder().addComponents(select)],
     ephemeral: true
   });
+}
+
+return interaction.update({
+  embeds: [embed],
+  components: [new ActionRowBuilder().addComponents(select)]
+});
 
 }
 
