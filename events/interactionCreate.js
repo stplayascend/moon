@@ -41,6 +41,41 @@ module.exports = {
     ───────────────────────────── */
 
     if (interaction.isAutocomplete()) {
+  if (interaction.commandName === 'close' || interaction.commandName === 'open') {
+  const focused = interaction.options.getFocused().toLowerCase();
+
+  const allButtons = [
+    'robux_login',
+    'robux_gamepass',
+    'robux_group',
+    'fishit',
+    'boost_fishit',
+    'forge',
+    'abyss',
+    'sawah',
+    'game_lain',
+    'heartopia'
+  ];
+
+  const { getDisabledButtons } = require('../database/supabase');
+  const disabled = await getDisabledButtons();
+
+  let choices = [];
+
+  if (interaction.commandName === 'close') {
+    choices = allButtons.filter(b => !disabled.includes(b));
+  }
+
+  if (interaction.commandName === 'open') {
+    choices = allButtons.filter(b => disabled.includes(b));
+  }
+
+  return interaction.respond(
+    choices
+      .filter(c => c.toLowerCase().includes(focused))
+      .map(c => ({ name: c, value: c }))
+  );
+}
       try {
         const focused = interaction.options.getFocused(true) || {};
         const search = (focused.value || '').toLowerCase();
