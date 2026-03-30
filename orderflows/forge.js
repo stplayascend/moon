@@ -146,14 +146,19 @@ async function handleInteraction(interaction){
   const id = interaction.customId;
   const userId = interaction.user.id;
 
+  
   if(interaction.isModalSubmit() && id==='fo_username_modal'){
+
+  const username = interaction.fields.getTextInputValue('fo_username');
+
   session.setSession(userId,{
     flow:FLOW,
-    step:1,
+    step:2,
+    username,
     cart:[]
   });
 
-  return showUsernameModal(interaction);
+  return showCategorySelect(interaction);
 }
 
   if(id==='fo_username_modal'){
