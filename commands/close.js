@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { disableButton } = require('../database/supabase');
+const { SlashCommandBuilder, PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { disableButton, getDisabledButtons } = require('../database/supabase');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -7,39 +7,57 @@ module.exports = {
     .setDescription('Disable a panel button')
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption(opt =>
-    opt.setName('button')
-      .setDescription('Select button')
-      .setRequired(true)
-      .setAutocomplete(true)
+      opt.setName('button')
+        .setDescription('Select button')
+        .setRequired(true)
+        .setAutocomplete(true)
     ),
 
   async execute(interaction) {
 
     const btn = interaction.options.getString('button');
 
-   await disableButton(btn);
+    await disableButton(btn);
 
-// 🔥 UPDATE PANEL
-const { getDisabledButtons } = require('../database/supabase');
-const { buildPanel } = require('../utils/panelBuilder');
+    // 🔥 UPDATE PANEL
+    const panel = interaction.client.panelData;
 
-const panel = interaction.client.panelData;
+    if (panel) {
+      const channel = await interaction.client.channels.fetch(panel.channelId);
+      const msg = await channel.messages.fetch(panel.messageId);
 
-if (panel) {
-  const channel = await interaction.client.channels.fetch(panel.channelId);
-  const msg = await channel.messages.fetch(panel.messageId);
+      const disabled = await getDisabledButtons();
 
-  const disabled = await getDisabledButtons();
+      const row1 = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId('robux_login').setLabel('Robux Via Login').setStyle(ButtonStyle.Primary).setEmoji('🔐').setDisabled(disabled.includes('robux_login')),
+        new ButtonBuilder().setCustomId('robux_gamepass').setLabel('Robux Via Gamepass').setStyle(ButtonStyle.Primary).setEmoji('⏳').setDisabled(disabled.includes('robux_gamepass')),
+        new ButtonBuilder().setCustomId('robux_group').setLabel('Robux Via Group Payout').setStyle(ButtonStyle.Primary).setEmoji('⚡').setDisabled(disabled.includes('robux_group'))
+      );
 
-  await msg.edit({
-    components: buildPanel(disabled)
-  });
-}
+      const row2 = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId('fishit').setLabel('Fish It').setStyle(ButtonStyle.Primary).setEmoji('🐟').setDisabled(disabled.includes('fishit')),
+        new ButtonBuilder().setCustomId('boost_fishit').setLabel('Boost x8 Fish It').setStyle(ButtonStyle.Primary).setEmoji('🍀').setDisabled(disabled.includes('boost_fishit')),
+        new ButtonBuilder().setCustomId('forge').setLabel('The Forge').setStyle(ButtonStyle.Primary).setEmoji('⛏').setDisabled(disabled.includes('forge'))
+      );
 
-await interaction.reply({
-  content: `❌ Disabled: ${btn}`,
-  ephemeral: true
-});
+      const row3 = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId('abyss').setLabel('Abyss').setStyle(ButtonStyle.Primary).setEmoji('🔮').setDisabled(disabled.includes('abyss')),
+        new ButtonBuilder().setCustomId('sawah').setLabel('Sawah Indo').setStyle(ButtonStyle.Primary).setEmoji('🌾').setDisabled(disabled.includes('sawah')),
+        new ButtonBuilder().setCustomId('game_lain').setLabel('Game Lain').setStyle(ButtonStyle.Primary).setEmoji('🎮').setDisabled(disabled.includes('game_lain'))
+      );
+
+      const row4 = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId('heartopia').setLabel('Diamond Heartopia').setStyle(ButtonStyle.Primary).setEmoji('💎').setDisabled(disabled.includes('heartopia'))
+      );
+
+      await msg.edit({
+        components: [row1, row2, row3, row4]
+      });
+    }
+
+    await interaction.reply({
+      content: `❌ Disabled: ${btn}`,
+      ephemeral: true
     });
   }
 };
