@@ -16,6 +16,12 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   async execute(interaction) {
+      if (!interaction.member.permissions.has('Administrator')) {
+    return interaction.reply({
+      content: '❌ You are not allowed to use this command.',
+      ephemeral: true
+    });
+  }
     const disabled = await getDisabledButtons();
     const clean = disabled;
     const banner = new AttachmentBuilder('./pricing.png');
