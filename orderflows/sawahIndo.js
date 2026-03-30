@@ -123,18 +123,24 @@ async function handleInteraction(interaction) {
     session.setSession(userId, { flow: FLOW, step: 1 });
     return showUsernameModal(interaction);
   }
+  if(id === 'si_add_yes'){
+  return showCategorySelect(interaction); // 🔁 go back to category
+}
 
-  if (id === 'si_username_modal') {
+if(id === 'si_add_no'){
+  return showSummary(interaction);
+}
+  if (interaction.isModalSubmit() && id === 'si_username_modal') {
 
-    const username = interaction.fields.getTextInputValue('si_username');
+  const username = interaction.fields.getTextInputValue('si_username');
 
-    session.updateSession(userId, {
-      step: 2,
-      username
-    });
+  session.updateSession(userId, {
+    step: 2,
+    username
+  });
 
-    return showCategorySelect(interaction);
-  }
+  return showCategorySelect(interaction);
+}
 
   if (id === 'si_category_select') {
 
@@ -150,25 +156,28 @@ async function handleInteraction(interaction) {
 
   if (id === 'si_item_select') {
 
-    const selected = interaction.values[0];
+  const selected = interaction.values[0];
+  const s = session.getSession(userId);
 
-    const s = session.getSession(userId);
+  const list = await loadItems(s.category);
+  const item = list.find(i => i.value === selected);
 
-    const list = await loadItems(s.category);
+  if (!s.cart) s.cart = [];
 
-    const item = list.find(i => i.value === selected);
+  s.cart.push({
+    category: s.category,
+    item: item?.label ?? selected
+  });
 
-    session.updateSession(userId, {
-      step: 4,
-      item: item?.label ?? selected
-    });
+  session.updateSession(userId, {
+    cart: s.cart,
+    step: 'add_more'
+  });
 
-    return showSummary(interaction);
-  }
-
-  if (id === 'si_create_ticket') return createTicket(interaction);
-
-  if (id === 'si_cancel') {
+  return askAddMore(interaction);
+}
+if (id === 'si_create_ticket') return createTicket(interaction);
+if (id === 'si_cancel') {
 
     session.deleteSession(userId);
 
@@ -180,7 +189,26 @@ async function handleInteraction(interaction) {
   }
 
 }
+async function askAddMore(interaction){
 
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId('si_add_yes')
+      .setLabel('Add More Items')
+      .setStyle(ButtonStyle.Success),
+
+    new ButtonBuilder()
+      .setCustomId('si_add_no')
+      .setLabel('Continue')
+      .setStyle(ButtonStyle.Danger)
+  );
+
+  return interaction.update({
+    content: 'Do you want to add more items?',
+    embeds: [],
+    components: [row]
+  });
+}
 
 /* ===============================
    USERNAME MODAL
@@ -277,15 +305,21 @@ async function showSummary(interaction) {
 
   const s = session.getSession(interaction.user.id);
 
+  // 🔥 build items list
+  let itemsText = "";
+
+  (s.cart || []).forEach((entry, i)=>{
+    itemsText += `\n${i+1}. ${entry.category} → ${entry.item}`;
+  });
+
   const embed = new EmbedBuilder()
     .setTitle(' 🛍️ Detail Pembelian 🛍️')
     .setColor(0x5865F2)
     .setDescription(
-    `📋 **Produk:** Sawah Indo\n` +
-    `👤 **Username:** ${s.username}\n` +
-    `🛒 **Kategori:** ${s.category}\n` +
-    `🛍️ **Item:** ${s.item}`
-  )
+      `📋 **Produk:** Sawah Indo\n` +
+      `👤 **Username:** ${s.username}\n` +
+      `🛒 **Items:** ${itemsText || 'None'}`
+    )
     .setFooter({ text: 'Review your order then click Create Ticket.' });
 
   const row = new ActionRowBuilder().addComponents(
@@ -307,7 +341,6 @@ async function showSummary(interaction) {
     embeds: [embed],
     components: [row]
   });
-
 }
 
 
@@ -321,19 +354,27 @@ async function createTicket(interaction) {
 
   const s = session.getSession(interaction.user.id);
 
+  // 🔥 build items list
+  let itemsText = "";
+
+  (s.cart || []).forEach((entry, i)=>{
+    itemsText += `\n${i+1}. ${entry.category} → ${entry.item}`;
+  });
+
   const summary =
-`**📋Produk:**🌾Sawah Indo
+`**📋Produk:** 🌾Sawah Indo
 **👤Username:** ${s.username}
-**🛒Kategori:** ${s.category}
-**🛍️Item:  ** ${s.item}`;
-  const instruction=
-  `📌 **Instruksi:**
+**🛒Items:** ${itemsText || 'None'}`;
+
+  const instruction =
+`📌 **Instruksi:**
 • Pengiriman Item di Private Server yang kami berikan
 • Mohon tunggu admin untuk gift item mu di Ps kami.
 • Proses di lakukan sesuai antrian ( jika mengantri )
 • Selesaikan pembayaran sesuai arahan admin.
 • Pastikan username Roblox kamu sudah benar sebelum admin memproses.
 • Setelah selesai, tiket akan ditutup oleh admin.`;
+
   await openTicket(interaction, {
     orderType: 'Sawah Indo',
     categoryKey: 'games',
@@ -342,7 +383,5 @@ async function createTicket(interaction) {
   });
 
   session.deleteSession(interaction.user.id);
-
 }
-
 module.exports = { showPriceList, handleInteraction };
