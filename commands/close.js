@@ -61,3 +61,5 @@ module.exports = {
     });
   }
 };
+console.log("DISABLED:", disabled);
+console.log("CHECK:", disabled.includes('sawah'));
