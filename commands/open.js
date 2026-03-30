@@ -20,7 +20,7 @@ module.exports = {
     await enableButton(btn);
 
     // 🔥 UPDATE PANEL
-    const panel = interaction.client.panelData;
+    const panel = global.panelData;
 
     if (panel) {
       const channel = await interaction.client.channels.fetch(panel.channelId);
