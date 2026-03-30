@@ -236,7 +236,7 @@ async function showCategorySelect(interaction) {
     .setPlaceholder('pilih kategori...')
     .addOptions(items.fishit.categories);
 
-  return interaction.reply({
+  return interaction.update({
     embeds: [embed],
     components: [new ActionRowBuilder().addComponents(select)],
     ephemeral: true
