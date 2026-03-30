@@ -17,6 +17,9 @@ module.exports = {
 
   async execute(interaction) {
     const disabled = await getDisabledButtons();
+    const clean = disabled.map(d =>
+    d.toLowerCase().replace(/\s+/g, '_').trim()
+  );
     const banner = new AttachmentBuilder('./pricing.png');
 
     const purchaseEmbed = new EmbedBuilder()
@@ -43,21 +46,21 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setLabel('Robux Via Login')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🔐')
-        .setDisabled(disabled.includes('robux_login')),
+        .setDisabled(clean.includes('robux_login')),
 
       new ButtonBuilder()
         .setCustomId('robux_gamepass')
         .setLabel('Robux Via Gamepass')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('⏳')
-        .setDisabled(disabled.includes('robux_gamepass')),
+        .setDisabled(clean.includes('robux_gamepass')),
 
       new ButtonBuilder()
         .setCustomId('robux_group')
         .setLabel('Robux Via Group Payout')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('⚡')
-        .setDisabled(disabled.includes('robux_group'))
+        .setDisabled(clean.includes('robux_group'))
     );
 
     // Row 2
@@ -67,21 +70,21 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setLabel('Fish It')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🐟')
-        .setDisabled(disabled.includes('fishit')),
+        .setDisabled(clean.includes('fishit')),
 
       new ButtonBuilder()
         .setCustomId('boost_fishit')
         .setLabel('Boost x8 Fish It')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🍀')
-        .setDisabled(disabled.includes('boost_fishit')),
+        .setDisabled(clean.includes('boost_fishit')),
 
       new ButtonBuilder()
         .setCustomId('forge')
         .setLabel('The Forge')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('⛏')
-        .setDisabled(disabled.includes('forge'))
+        .setDisabled(clean.includes('forge'))
     );
 
     // Row 3
@@ -91,21 +94,21 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setLabel('Abyss')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🔮')
-        .setDisabled(disabled.includes('abyss')),
+        .setDisabled(clean.includes('abyss')),
 
       new ButtonBuilder()
         .setCustomId('sawah')
         .setLabel('Sawah Indo')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🌾')
-        .setDisabled(disabled.includes('sawah')),
+        .setDisabled(clean.includes('sawah')),
 
       new ButtonBuilder()
         .setCustomId('game_lain')
         .setLabel('Game Lain')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🎮')
-        .setDisabled(disabled.includes('game_lain'))
+        .setDisabled(clean.includes('game_lain'))
     );
 
     // Row 4
@@ -115,7 +118,7 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setLabel('Diamond Heartopia')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('💎')
-        .setDisabled(disabled.includes('heartopia'))
+        .setDisabled(clean.includes('heartopia'))
     );
 
     const msg = await interaction.channel.send({
