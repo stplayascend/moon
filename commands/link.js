@@ -123,7 +123,7 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
       components: [row1, row2, row3, row4],
       files: [banner]
     });
-
+    interaction.client.panelMessage = msg;
     await interaction.reply({
       content: '✅ Purchase panel deployed!',
       ephemeral: true
