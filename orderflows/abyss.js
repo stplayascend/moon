@@ -114,8 +114,14 @@ async function handleInteraction(interaction) {
     session.setSession(userId, { flow: FLOW, step: 1 });
     return showUsernameModal(interaction);
   }
-
-  if (id === 'ab_username_modal') {
+  if(id === 'ab_add_yes'){
+  return showItemSelect(interaction); // 🔁 loop back
+  }
+  
+  if(id === 'ab_add_no'){
+    return showSummary(interaction);
+  }
+  if (interaction.isModalSubmit() && id === 'ab_username_modal') {
     const username = interaction.fields.getTextInputValue('ab_username');
     session.updateSession(userId, { step: 2, username });
     return showItemSelect(interaction);
@@ -129,12 +135,18 @@ async function handleInteraction(interaction) {
 
     const item = list.find(i => i.value === selected);
 
+    const s = session.getSession(userId);
+
+    if(!s.cart) s.cart = [];
+    
+    s.cart.push(item?.label ?? selected);
+    
     session.updateSession(userId, {
-      step: 3,
-      item: item?.label ?? selected
+      cart: s.cart,
+      step: 'add_more'
     });
 
-    return showSummary(interaction);
+    return askAddMore(interaction);
   }
 
   if (id === 'ab_create_ticket') return createTicket(interaction);
@@ -152,7 +164,26 @@ async function handleInteraction(interaction) {
 
 }
 
+async function askAddMore(interaction){
 
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId('ab_add_yes')
+      .setLabel('Add More Items')
+      .setStyle(ButtonStyle.Success),
+
+    new ButtonBuilder()
+      .setCustomId('ab_add_no')
+      .setLabel('Continue')
+      .setStyle(ButtonStyle.Danger)
+  );
+
+  return interaction.update({
+    content:'Do you want to add more items?',
+    embeds:[],
+    components:[row]
+  });
+}
 /* ===============================
    USERNAME MODAL
 ================================ */
@@ -204,6 +235,21 @@ async function showItemSelect(interaction) {
     .setPlaceholder('Pilih item...')
     .addOptions(available);
 
+  if (interaction.deferred || interaction.replied) {
+  return interaction.followUp({
+    embeds: [embed],
+    components: [new ActionRowBuilder().addComponents(select)],
+    ephemeral: true
+  });
+  }
+  
+  if (interaction.isButton() || interaction.isStringSelectMenu()) {
+    return interaction.update({
+      embeds: [embed],
+      components: [new ActionRowBuilder().addComponents(select)]
+    });
+  }
+  
   return interaction.reply({
     embeds: [embed],
     components: [new ActionRowBuilder().addComponents(select)],
@@ -221,18 +267,23 @@ async function showSummary(interaction) {
 
   const s = session.getSession(interaction.user.id);
 
+  let itemsText = "";
+
+  (s.cart || []).forEach((item, i)=>{
+    itemsText += `\n${i+1}. ${item}`;
+  });
+
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
     .setColor(0x5865F2)
     .setDescription(
-    `📋 **Produk:** Abyss\n` +
-    `👤 **Username:** ${s.username}\n` +
-    `🛍️ **Item:** ${s.item}`
-  )
+      `📋 **Produk:** Abyss\n` +
+      `👤 **Username:** ${s.username}\n` +
+      `🛒 **Items:** ${itemsText}`
+    )
     .setFooter({ text: 'Review your order then click Create Ticket.' });
 
   const row = new ActionRowBuilder().addComponents(
-
     new ButtonBuilder()
       .setCustomId('ab_create_ticket')
       .setLabel('Create Ticket')
@@ -243,14 +294,12 @@ async function showSummary(interaction) {
       .setCustomId('ab_cancel')
       .setLabel('Cancel')
       .setStyle(ButtonStyle.Danger)
-
   );
 
   return interaction.update({
     embeds: [embed],
     components: [row]
   });
-
 }
 
 
@@ -264,13 +313,21 @@ async function createTicket(interaction) {
 
   const s = session.getSession(interaction.user.id);
 
+  // ✅ build items text first
+  let itemsText = "";
+
+  (s.cart || []).forEach((item, i)=>{
+    itemsText += `\n${i+1}. ${item}`;
+  });
+
+  // ✅ then create summary
   const summary =
 `**📋Produk:** 🔮Abyss
 **👤Username:** ${s.username}
-**🛍️Item:** ${s.item}`;
+**🛒Items:** ${itemsText}`;
 
   const instruction =
-  `📌 **Instruksi:**
+`📌 **Instruksi:**
 • Pengiriman Item di Private Server yang kami berikan
 • Mohon tunggu admin untuk gift item mu di Ps kami.
 • Proses di lakukan sesuai antrian ( jika mengantri )
@@ -286,7 +343,6 @@ async function createTicket(interaction) {
   });
 
   session.deleteSession(interaction.user.id);
-
 }
 
 module.exports = { showPriceList, handleInteraction };
