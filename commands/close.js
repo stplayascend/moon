@@ -11,7 +11,6 @@ module.exports = {
       .setDescription('Select button')
       .setRequired(true)
       .setAutocomplete(true)
-  )
     ),
 
   async execute(interaction) {
