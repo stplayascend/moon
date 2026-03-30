@@ -116,7 +116,26 @@ ${cashpack.map(i=>i.label).join('\n') || '*Unavailable*'}
   });
 
 }
+async function askAddMore(interaction){
 
+  const row = new ActionRowBuilder().addComponents(
+    new ButtonBuilder()
+      .setCustomId('fo_add_yes')
+      .setLabel('Add More Items')
+      .setStyle(ButtonStyle.Success),
+
+    new ButtonBuilder()
+      .setCustomId('fo_add_no')
+      .setLabel('Continue')
+      .setStyle(ButtonStyle.Danger)
+  );
+
+  return interaction.update({
+    content:'Do you want to add more items?',
+    embeds:[],
+    components:[row]
+  });
+}
 
 /* =================================
    INTERACTION HANDLER
@@ -127,10 +146,15 @@ async function handleInteraction(interaction){
   const id = interaction.customId;
   const userId = interaction.user.id;
 
-  if(id==='fo_order'){
-    session.setSession(userId,{flow:FLOW,step:1});
-    return showUsernameModal(interaction);
-  }
+  if(interaction.isModalSubmit() && id==='fo_username_modal'){
+  session.setSession(userId,{
+    flow:FLOW,
+    step:1,
+    cart:[]
+  });
+
+  return showUsernameModal(interaction);
+}
 
   if(id==='fo_username_modal'){
     const username = interaction.fields.getTextInputValue('fo_username');
@@ -143,23 +167,41 @@ async function handleInteraction(interaction){
     session.updateSession(userId,{step:3,category});
     return showPackageSelect(interaction,category);
   }
+  if(id==='fo_add_yes'){
 
+  session.updateSession(userId,{
+    step:2,
+    category:null
+  });
+
+  return showCategorySelect(interaction); // 🔁 replace message
+}
+
+if(id==='fo_add_no'){
+  return showSummary(interaction);
+}
   if(id==='fo_package_select'){
 
-    const selected = interaction.values[0];
-    const s = session.getSession(userId);
+  const selected = interaction.values[0];
+  const s = session.getSession(userId);
 
-    const list = await loadItems(s.category);
+  const list = await loadItems(s.category);
+  const pkg = list.find(i=>i.value===selected);
 
-    const pkg = list.find(i=>i.value===selected);
+  if(!s.cart) s.cart = [];
 
-    session.updateSession(userId,{
-      step:4,
-      package:pkg?.label??selected
-    });
+  s.cart.push({
+    category: s.category,
+    item: pkg?.label ?? selected
+  });
 
-    return showSummary(interaction);
-  }
+  session.updateSession(userId,{
+    cart: s.cart,
+    step: 'add_more'
+  });
+
+  return askAddMore(interaction); // 🔥 NEW
+}
 
   if(id==='fo_create_ticket') return createTicket(interaction);
 
@@ -216,14 +258,18 @@ async function showCategorySelect(interaction){
     .setPlaceholder('Pilih kategori...')
     .addOptions(items.forge.categories);
 
-  return interaction.reply({
+  const payload = {
     embeds:[embed],
     components:[new ActionRowBuilder().addComponents(select)],
     ephemeral:true
-  });
+  };
 
+  if(interaction.isButton()){
+    return interaction.update(payload); // ✅ replace
+  } else {
+    return interaction.reply(payload);  // modal case
+  }
 }
-
 
 /* =================================
    PACKAGE SELECT
@@ -267,18 +313,22 @@ async function showSummary(interaction){
 
   const s = session.getSession(interaction.user.id);
 
+  let itemsText = "";
+
+  (s.cart || []).forEach((entry,i)=>{
+    itemsText += `\n${i+1}. ${entry.category} → ${entry.item}`;
+  });
+
   const embed = new EmbedBuilder()
     .setTitle(' 🛍️ Detail Pembelian 🛍️')
     .setColor(0x5865F2)
     .setDescription(
-    `📋 **Produk:** The Forge\n` +
-    `👤 **Username:** ${s.username}\n` +
-    `🛒 **Kategori:** ${s.category}\n` +
-    `🛍️ **Item:** ${s.package}`
-  );
+      `📋 **Produk:** The Forge\n` +
+      `👤 **Username:** ${s.username}\n` +
+      `🛒 **Items:** ${itemsText}`
+    );
 
   const row = new ActionRowBuilder().addComponents(
-
     new ButtonBuilder()
       .setCustomId('fo_create_ticket')
       .setLabel('Create Ticket')
@@ -289,14 +339,12 @@ async function showSummary(interaction){
       .setCustomId('fo_cancel')
       .setLabel('Cancel')
       .setStyle(ButtonStyle.Danger)
-
   );
 
   return interaction.update({
     embeds:[embed],
     components:[row]
   });
-
 }
 
 
@@ -310,20 +358,26 @@ async function createTicket(interaction){
 
   const s = session.getSession(interaction.user.id);
 
+  let itemsText = "";
+
+  (s.cart || []).forEach((entry,i)=>{
+    itemsText += `\n${i+1}. ${entry.category} → ${entry.item}`;
+  });
+
   const summary =
-`**📋Produk:** ⛏️The Forge
-**👤Username:** ${s.username}
-**🛒Kategori:** ${s.category}
-**🛍️Item: ** ${s.package}`;
+`**📋 Produk:** ⛏️ The Forge
+**👤 Username:** ${s.username}
+**🛒 Items:** ${itemsText}`;
 
   const instruction =
-  `📌 **Instruksi:**
+`📌 **Instruksi:**
 • Pengiriman Item di Private Server yang kami berikan
 • Mohon tunggu admin untuk gift item mu di Ps kami.
 • Proses di lakukan sesuai antrian ( jika mengantri )
 • Selesaikan pembayaran sesuai arahan admin.
 • Pastikan username Roblox kamu sudah benar sebelum admin memproses.
 • Setelah selesai, tiket akan ditutup oleh admin.`;
+
   await openTicket(interaction,{
     orderType:'The Forge',
     categoryKey:'games',
@@ -332,7 +386,6 @@ async function createTicket(interaction){
   });
 
   session.deleteSession(interaction.user.id);
-
 }
 
 module.exports={showPriceList,handleInteraction};
