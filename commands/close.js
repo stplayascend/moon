@@ -27,7 +27,10 @@ module.exports = {
       const msg = await channel.messages.fetch(panel.messageId);
 
       const disabled = await getDisabledButtons();
-      const clean = disabled.map(d => d.trim().toLowerCase());
+      console.log("RAW DISABLED:", disabled);
+      const clean = disabled.map(d =>
+      d.toLowerCase().replace(/\s+/g, '_').trim()
+    );
 
       const row1 = new ActionRowBuilder().addComponents(
         new ButtonBuilder().setCustomId('robux_login').setLabel('Robux Via Login').setStyle(ButtonStyle.Primary).setEmoji('🔐').setDisabled(clean.includes('robux_login')),
@@ -38,7 +41,7 @@ module.exports = {
       const row2 = new ActionRowBuilder().addComponents(
         new ButtonBuilder().setCustomId('fishit').setLabel('Fish It').setStyle(ButtonStyle.Primary).setEmoji('🐟').setDisabled(clean.includes('fishit')),
         new ButtonBuilder().setCustomId('boost_fishit').setLabel('Boost x8 Fish It').setStyle(ButtonStyle.Primary).setEmoji('🍀').setDisabled(clean.includes('boost_fishit')),
-        new ButtonBuilder().setCustomId('forge').setLabel('The Forge').setStyle(ButtonStyle.Primary).setEmoji('⛏').setDisabled(disabled.includes('forge'))
+        new ButtonBuilder().setCustomId('forge').setLabel('The Forge').setStyle(ButtonStyle.Primary).setEmoji('⛏').setDisabled(clean.includes('forge'))
       );
 
       const row3 = new ActionRowBuilder().addComponents(
@@ -55,7 +58,6 @@ module.exports = {
         components: [row1, row2, row3, row4]
       });
     }
-    console.log("RAW DISABLED:", disabled);
     await interaction.reply({
       content: `❌ Disabled: ${btn}`,
       ephemeral: true
