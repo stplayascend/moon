@@ -33,29 +33,32 @@ module.exports = {
       const msg = await channel.messages.fetch(panel.messageId);
 
       const disabled = await getDisabledButtons();
+      const clean = disabled.map(d =>
+      d.toLowerCase().replace(/\s+/g, '_').trim()
+    );
 
       const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
       const row1 = new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('robux_login').setLabel('Robux Via Login').setStyle(ButtonStyle.Primary).setEmoji('🔐').setDisabled(disabled.includes('robux_login')),
-        new ButtonBuilder().setCustomId('robux_gamepass').setLabel('Robux Via Gamepass').setStyle(ButtonStyle.Primary).setEmoji('⏳').setDisabled(disabled.includes('robux_gamepass')),
-        new ButtonBuilder().setCustomId('robux_group').setLabel('Robux Via Group Payout').setStyle(ButtonStyle.Primary).setEmoji('⚡').setDisabled(disabled.includes('robux_group'))
+        new ButtonBuilder().setCustomId('robux_login').setLabel('Robux Via Login').setStyle(ButtonStyle.Primary).setEmoji('🔐').setDisabled(clean.includes('robux_login')),
+        new ButtonBuilder().setCustomId('robux_gamepass').setLabel('Robux Via Gamepass').setStyle(ButtonStyle.Primary).setEmoji('⏳').setDisabled(clean.includes('robux_gamepass')),
+        new ButtonBuilder().setCustomId('robux_group').setLabel('Robux Via Group Payout').setStyle(ButtonStyle.Primary).setEmoji('⚡').setDisabled(clean.includes('robux_group'))
       );
 
       const row2 = new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('fishit').setLabel('Fish It').setStyle(ButtonStyle.Primary).setEmoji('🐟').setDisabled(disabled.includes('fishit')),
-        new ButtonBuilder().setCustomId('boost_fishit').setLabel('Boost x8 Fish It').setStyle(ButtonStyle.Primary).setEmoji('🍀').setDisabled(disabled.includes('boost_fishit')),
-        new ButtonBuilder().setCustomId('forge').setLabel('The Forge').setStyle(ButtonStyle.Primary).setEmoji('⛏').setDisabled(disabled.includes('forge'))
+        new ButtonBuilder().setCustomId('fishit').setLabel('Fish It').setStyle(ButtonStyle.Primary).setEmoji('🐟').setDisabled(clean.includes('fishit')),
+        new ButtonBuilder().setCustomId('boost_fishit').setLabel('Boost x8 Fish It').setStyle(ButtonStyle.Primary).setEmoji('🍀').setDisabled(clean.includes('boost_fishit')),
+        new ButtonBuilder().setCustomId('forge').setLabel('The Forge').setStyle(ButtonStyle.Primary).setEmoji('⛏').setDisabled(clean.includes('forge'))
       );
 
       const row3 = new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('abyss').setLabel('Abyss').setStyle(ButtonStyle.Primary).setEmoji('🔮').setDisabled(disabled.includes('abyss')),
-        new ButtonBuilder().setCustomId('sawah').setLabel('Sawah Indo').setStyle(ButtonStyle.Primary).setEmoji('🌾').setDisabled(disabled.includes('sawah')),
-        new ButtonBuilder().setCustomId('game_lain').setLabel('Game Lain').setStyle(ButtonStyle.Primary).setEmoji('🎮').setDisabled(disabled.includes('game_lain'))
+        new ButtonBuilder().setCustomId('abyss').setLabel('Abyss').setStyle(ButtonStyle.Primary).setEmoji('🔮').setDisabled(clean.includes('abyss')),
+        new ButtonBuilder().setCustomId('sawah').setLabel('Sawah Indo').setStyle(ButtonStyle.Primary).setEmoji('🌾').setDisabled(clean.includes('sawah')),
+        new ButtonBuilder().setCustomId('game_lain').setLabel('Game Lain').setStyle(ButtonStyle.Primary).setEmoji('🎮').setDisabled(clean.includes('game_lain'))
       );
 
       const row4 = new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('heartopia').setLabel('Diamond Heartopia').setStyle(ButtonStyle.Primary).setEmoji('💎').setDisabled(disabled.includes('heartopia'))
+        new ButtonBuilder().setCustomId('heartopia').setLabel('Diamond Heartopia').setStyle(ButtonStyle.Primary).setEmoji('💎').setDisabled(clean.includes('heartopia'))
       );
 
       await msg.edit({
