@@ -118,10 +118,10 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setDisabled(disabled.includes('heartopia'))
     );
 
-    await interaction.channel.send({
-      embeds: [purchaseEmbed],
-      components: [row1, row2, row3, row4],
-      files: [banner]
+    const msg = await interaction.channel.send({
+    embeds: [purchaseEmbed],
+    components: [row1, row2, row3, row4],
+    files: [banner]
     });
     interaction.client.panelData = {
     channelId: msg.channel.id,
