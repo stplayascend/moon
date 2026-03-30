@@ -1,14 +1,14 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
-const { disableButton } = require('../database/supabase');
+const { enableButton } = require('../database/supabase');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('close')
-    .setDescription('Disable a panel button')
+    .setName('open')
+    .setDescription('Enable a panel button')
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption(opt =>
       opt.setName('button')
-        .setDescription('Button to disable')
+        .setDescription('Button to enable')
         .setRequired(true)
         .addChoices(
           { name: 'Robux Login', value: 'robux_login' },
@@ -28,10 +28,10 @@ module.exports = {
 
     const btn = interaction.options.getString('button');
 
-    await disableButton(btn);
+    await enableButton(btn);
 
     await interaction.reply({
-      content: `❌ Disabled: ${btn}`,
+      content: `✅ Enabled: ${btn}`,
       ephemeral: true
     });
   }
