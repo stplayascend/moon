@@ -251,17 +251,18 @@ async function showCategorySelect(interaction) {
     .setPlaceholder('Pilih kategori...')
     .addOptions(items.sawahIndo.categories);
 
-  if (interaction.deferred || interaction.replied) {
-  return interaction.followUp({
+  if (interaction.isButton() || interaction.isStringSelectMenu()) {
+  return interaction.update({
+    content: null,
     embeds: [embed],
-    components: [new ActionRowBuilder().addComponents(select)],
-    ephemeral: true
+    components: [new ActionRowBuilder().addComponents(select)]
   });
 }
 
-return interaction.update({
+return interaction.reply({
   embeds: [embed],
-  components: [new ActionRowBuilder().addComponents(select)]
+  components: [new ActionRowBuilder().addComponents(select)],
+  ephemeral: true
 });
 
 }
