@@ -7,9 +7,10 @@ module.exports = {
     .setDescription('Enable a panel button')
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption(opt =>
-      opt.setName('button')
-        .setDescription('Button to enable')
-        .setRequired(true)
+    opt.setName('button')
+      .setDescription('Select button')
+      .setRequired(true)
+      .setAutocomplete(true)
         .addChoices(
           { name: 'Robux Login', value: 'robux_login' },
           { name: 'Gamepass', value: 'robux_gamepass' },
