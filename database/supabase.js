@@ -226,4 +226,7 @@ module.exports = {
   addEnabledItem,
   createTicketRecord,
   closeTicketRecord,
+  getDisabledButtons,
+  disableButton,
+  enableButton
 };
