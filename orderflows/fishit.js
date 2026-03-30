@@ -184,21 +184,25 @@ if (id === 'fi_add_no') {
 }
 async function askAddMore(interaction) {
 
+  const embed = new EmbedBuilder()
+    .setTitle('🛒 Tambah Item?')
+    .setColor(0x5865F2);
+
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId('fi_add_yes')
-      .setLabel('Add More Items')
-      .setStyle(ButtonStyle.Success),
+      .setLabel('Tambah Item')
+      .setStyle(ButtonStyle.Primary), // 🔵 BLUE
 
     new ButtonBuilder()
       .setCustomId('fi_add_no')
-      .setLabel('Continue')
-      .setStyle(ButtonStyle.Danger)
+      .setLabel('Create Ticket')
+      .setStyle(ButtonStyle.Primary) // 🔵 BLUE
   );
 
   return interaction.update({
-    content: 'Do you want to add more items?',
-    embeds: [],
+    content: '',
+    embeds: [embed],
     components: [row]
   });
 }
