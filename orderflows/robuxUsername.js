@@ -97,7 +97,7 @@ async function handleInteraction(interaction) {
 
   if (id === 'ru_s1_no') {
     session.deleteSession(userId);
-    return replaceStep(interaction, {
+    return interaction.update({
       content: '❌ Order cancelled.',
       embeds: [],
       components: []
@@ -125,7 +125,7 @@ async function handleInteraction(interaction) {
 
   if (id === 'ru_cancel') {
     session.deleteSession(userId);
-    return replaceStep(interaction, {
+    return interaction.update({
       content: '❌ Order cancelled.',
       embeds: [],
       components: []
@@ -133,18 +133,6 @@ async function handleInteraction(interaction) {
   }
 }
 
-/* ───────────────────────────────────── */
-
-async function sendStep(interaction, data) {
-  const payload = { ...data, ephemeral: true };
-  if (interaction.replied || interaction.deferred)
-    return interaction.followUp(payload);
-  return interaction.reply(payload);
-}
-
-async function replaceStep(interaction, data) {
-  return interaction.update({ ...data, ephemeral: true });
-}
 
 /* ───────────────────────────────────── */
 
@@ -170,7 +158,7 @@ async function showStep1(interaction) {
       .setStyle(ButtonStyle.Danger)
   );
 
-  return sendStep(interaction, { embeds: [embed], components: [row] });
+  return interaction.reply({ embeds: [embed], components: [row], ephemeral: true });
 }
 
 /* ───────────────────────────────────── */
@@ -200,15 +188,7 @@ async function showPackageSelect(interaction) {
   const available = await loadPackages();
 
   if (available.length === 0) {
-    const payload = {
-      content: '⚠️ No packages available right now.',
-      embeds: [],
-      components: [],
-      ephemeral: true
-    };
-    if (interaction.replied || interaction.deferred)
-      return interaction.followUp(payload);
-    return interaction.reply(payload);
+    return interaction.reply({ content: '⚠️ No packages available right now.', embeds: [], components: [], ephemeral: true });
   }
 
   const embed = new EmbedBuilder()
@@ -221,15 +201,7 @@ async function showPackageSelect(interaction) {
     .setPlaceholder('Pilih paket...')
     .addOptions(available);
 
-  const payload = {
-    embeds: [embed],
-    components: [new ActionRowBuilder().addComponents(select)],
-    ephemeral: true
-  };
-
-  if (interaction.replied || interaction.deferred)
-    return interaction.followUp(payload);
-  return interaction.reply(payload);
+  return interaction.reply({ embeds: [embed], components: [new ActionRowBuilder().addComponents(select)], ephemeral: true });
 }
 
 /* ───────────────────────────────────── */
@@ -259,7 +231,7 @@ async function showSummary(interaction) {
       .setStyle(ButtonStyle.Danger)
   );
 
-  return replaceStep(interaction, { embeds: [embed], components: [row] });
+  return interaction.update( { embeds: [embed], components: [row] });
 }
 
 /* ───────────────────────────────────── */
