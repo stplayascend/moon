@@ -149,7 +149,7 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
 
     const msg = await interaction.channel.send({
     embeds: [purchaseEmbed],
-    components: [row1, row2, row3, row4, row5],
+    components: [row1, row2, row3, row4],
     files: [banner]
     });
     global.panelData = {
