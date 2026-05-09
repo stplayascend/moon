@@ -137,12 +137,12 @@ async function handleInteraction(interaction) {
 
 async function showStep1(interaction) {
   const embed = new EmbedBuilder()
-    .setTitle('⚠️ Mohon di baca dan pahami ⚠️')
+    .setTitle('Robux via username')
     .setColor(0x5865F2)
     .setDescription(
-      'Sudah mengerti topup **Robux Via Username**?\n\n' +
-      '> Robux akan dikirim menggunakan metode Gamepass sesuai jumlah yang dipesan.\n' +
-      '> Pastikan username Roblox kamu aktif dan dapat menerima Robux.'
+      'Robux akan dikirim menggunakan metode Gift melalui username sesuai jumlah yang dipesan.\n' +
+      'Pastikan username Roblox kamu aktif dan dapat menerima Robux.\n' +
+      'Mohon tanya antrian terlebih dahulu ke admin di tiket, karna pembelian robux via username di batasi 500rbx/hari'
     );
 
   const row = new ActionRowBuilder().addComponents(
