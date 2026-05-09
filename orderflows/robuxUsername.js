@@ -88,9 +88,13 @@ async function handleInteraction(interaction) {
 
   /* ── Order clicked → confirm understanding ── */
   if (id === 'ru_order') {
-    session.setSession(userId, { flow: FLOW, step: 1 });
-    return showStep1(interaction);
-  }
+
+  await interaction.deferUpdate();
+
+  session.setSession(userId, { flow: FLOW, step: 1 });
+
+  return showStep1(interaction);
+}
 
   /* ── Step 1: understood? ── */
   if (id === 'ru_s1_yes') {
