@@ -13,8 +13,6 @@ const {
 const { getDisabledItems, getEnabledItems } = require('../database/supabase');
 const items   = require('../data/items');
 const session = require('./sessionManager');
-// Add MessageFlags to imports at the top
-const { MessageFlags, EmbedBuilder, ActionRowBuilder, ... } = require('discord.js');
 const FLOW = 'ru';
 
 /* ───────────────────────────────────── */
