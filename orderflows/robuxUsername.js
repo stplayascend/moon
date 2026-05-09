@@ -246,7 +246,7 @@ async function createTicket(interaction) {
 
   const instruction =
 `📌 **Instruksi:**
-• Pengiriman Robux dilakukan via Gamepass sesuai username
+• Pengiriman Robux dilakukan via Gift robux ke username
 • Mohon standby dan pastikan username yang dimasukkan sudah benar
 • Proses dilakukan sesuai antrian (jika mengantri)
 • Selesaikan pembayaran sesuai arahan admin
