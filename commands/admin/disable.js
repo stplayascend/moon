@@ -12,11 +12,14 @@ module.exports = {
         .setDescription('Select game')
         .setRequired(true)
         .addChoices(
-          { name: 'FishIt', value: 'fishit' },
-          { name: 'FishIt Boost', value: 'fishitBoost' },
-          { name: 'Forge', value: 'forge' },
-          { name: 'Abyss', value: 'abyss' },
-          { name: 'Sawah Indo', value: 'sawahIndo' }
+          { name: 'FishIt',            value: 'fishit' },
+          { name: 'FishIt Boost',      value: 'fishitBoost' },
+          { name: 'Forge',             value: 'forge' },
+          { name: 'Abyss',             value: 'abyss' },
+          { name: 'Sawah Indo',        value: 'sawahIndo' },
+          { name: 'Kick a Lucky Block',value: 'kickLuckyBlock' },
+          { name: 'Discord Nitro',     value: 'discordNitro' },
+          { name: 'Robux Username',    value: 'robuxUsername' }
         )
     )
 

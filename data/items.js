@@ -5,6 +5,76 @@
 
 module.exports = {
 
+  // ── Robux Via Username ───────────────────────────────────
+  robuxUsernamePackages: [
+    { label: '⏣ 100 Rbx – 11.000',  value: '100_rbx' },
+    { label: '⏣ 200 Rbx – 22.000',  value: '200_rbx' },
+    { label: '⏣ 300 Rbx – 33.000',  value: '300_rbx' },
+    { label: '⏣ 400 Rbx – 44.000',  value: '400_rbx' },
+    { label: '⏣ 500 Rbx – 55.000',  value: '500_rbx' },
+  ],
+
+  // ── Kick a Lucky Block ───────────────────────────────────
+  kickLuckyBlock: {
+    categories: [
+      { label: '⚡ Boost',     value: 'boost' },
+      { label: '🎮 Gamepass',  value: 'gamepass' },
+      { label: '💰 Cash Pack', value: 'cashpack' },
+    ],
+    boost: [
+      { label: '⚡ x2 Boost – 6.800',  value: 'x2_boost' },
+      { label: '⚡ x4 Boost – 17.000', value: 'x4_boost' },
+      { label: '⚡ x8 Boost – 61.200', value: 'x8_boost' },
+    ],
+    gamepass: [
+      { label: '👑 VIP – 25.075',               value: 'vip' },
+      { label: '🦵 Kick Power – 12.000',         value: 'kick_power' },
+      { label: '💵 x2 Cash – 34.000',            value: 'x2_cash' },
+      { label: '🧠 x2 Brainrot Luck – 85.000',   value: 'x2_brainrot_luck' },
+      { label: '🧬 x2 Mutation Luck – 12.000',   value: 'x2_mutation_luck' },
+    ],
+    cashpack: [
+      { label: '💵 Small Cash Pack – 1.700',   value: 'small_cash_pack' },
+      { label: '💵 Medium Cash Pack – 8.500',  value: 'medium_cash_pack' },
+      { label: '💵 Big Cash Pack – 21.250',    value: 'big_cash_pack' },
+      { label: '💵 Huge Cash Pack – 27.200',   value: 'huge_cash_pack' },
+      { label: '💵 Insane Cash Pack – 76.500', value: 'insane_cash_pack' },
+    ],
+  },
+
+  // ── Discord Nitro / Services ─────────────────────────────
+  discordNitro: {
+    categories: [
+      { label: '🔵 Nitro Boost (VILOG)',  value: 'nitro_boost'  },
+      { label: '🚀 Server Boost',          value: 'server_boost' },
+      { label: '🎨 Decoration',            value: 'decoration'   },
+    ],
+    nitro_boost: [
+      { label: '🔵 Nitro 1 Bulan (Trial) – Rp. 25.000', value: 'nitro_1mo' },
+      { label: '🔵 Nitro 3 Bulan (Trial) – Rp. 40.000', value: 'nitro_3mo' },
+    ],
+    server_boost_1mo: [
+      { label: '🚀 2x Boost  | 1 Bulan – Rp. 30.000',  value: 'sb_2x_1mo'  },
+      { label: '🚀 14x Boost | 1 Bulan – Rp. 110.000', value: 'sb_14x_1mo' },
+      { label: '🚀 20x Boost | 1 Bulan – Rp. 160.000', value: 'sb_20x_1mo' },
+    ],
+    server_boost_3mo: [
+      { label: '🚀 2x Boost  | 3 Bulan – Rp. 40.000',  value: 'sb_2x_3mo'  },
+      { label: '🚀 14x Boost | 3 Bulan – Rp. 160.000', value: 'sb_14x_3mo' },
+      { label: '🚀 20x Boost | 3 Bulan – Rp. 260.000', value: 'sb_20x_3mo' },
+    ],
+    decoration: [
+      { label: '🎨 Rp33.000  → Rp20.000',  value: 'deco_20k'  },
+      { label: '🎨 Rp39.500  → Rp25.000',  value: 'deco_25k'  },
+      { label: '🎨 Rp52.000  → Rp40.000',  value: 'deco_40k'  },
+      { label: '🎨 Rp78.000  → Rp63.000',  value: 'deco_63k'  },
+      { label: '🎨 Rp100.000 → Rp80.000',  value: 'deco_80k'  },
+      { label: '🎨 Rp105.000 → Rp90.000',  value: 'deco_90k'  },
+      { label: '🎨 Rp130.000 → Rp130.000', value: 'deco_130k' },
+      { label: '🎨 Rp155.000 → Rp150.000', value: 'deco_150k' },
+    ],
+  },
+
   // ── Robux Via Login ──────────────────────────────────────
   robuxLoginPackages: [
   { label: '🧸 Premium • 450R + Prem – Rp 75.000', value: '450P' },

@@ -1,6 +1,7 @@
 const robuxLogin       = require('../orderflows/robuxLogin');
 const robuxGamepass    = require('../orderflows/robuxGamepass');
 const robuxGroupPayout = require('../orderflows/robuxGroupPayout');
+const robuxUsername    = require('../orderflows/robuxUsername');
 const heartopia        = require('../orderflows/diamondHeartopia');
 const fishit           = require('../orderflows/fishit');
 const fishitBoost      = require('../orderflows/fishitBoost');
@@ -8,6 +9,8 @@ const forge            = require('../orderflows/forge');
 const abyss            = require('../orderflows/abyss');
 const sawahIndo        = require('../orderflows/sawahIndo');
 const gameLain         = require('../orderflows/gameLain');
+const kickLuckyBlock   = require('../orderflows/kickLuckyBlock');
+const discordNitro     = require('../orderflows/discordNitro');
 
 const items = require('../data/items');
 
@@ -22,6 +25,7 @@ const FLOW_HANDLERS = {
   rl_:  robuxLogin.handleInteraction,
   rg_:  robuxGamepass.handleInteraction,
   rgp_: robuxGroupPayout.handleInteraction,
+  ru_:  robuxUsername.handleInteraction,
   dh_:  heartopia.handleInteraction,
   fi_:  fishit.handleInteraction,
   fib_: fishitBoost.handleInteraction,
@@ -29,6 +33,8 @@ const FLOW_HANDLERS = {
   ab_:  abyss.handleInteraction,
   si_:  sawahIndo.handleInteraction,
   gl_:  gameLain.handleInteraction,
+  klb_: kickLuckyBlock.handleInteraction,
+  ds_:  discordNitro.handleInteraction,
 };
 
 module.exports = {
@@ -48,13 +54,16 @@ module.exports = {
     'robux_login',
     'robux_gamepass',
     'robux_group',
+    'robux_username',
     'fishit',
     'boost_fishit',
     'forge',
     'abyss',
     'sawah',
     'game_lain',
-    'heartopia'
+    'heartopia',
+    'kick_lucky_block',
+    'discord_nitro'
   ];
 
   const { getDisabledButtons } = require('../database/supabase');
@@ -101,6 +110,17 @@ module.exports = {
             }));
           }
 
+          else if (game === 'kickLuckyBlock' || game === 'discordNitro') {
+            categories = gameData.categories.map(c => ({
+              name: c.label,
+              value: c.value
+            }));
+          }
+
+          else if (game === 'robuxUsername') {
+            categories = [{ name: 'packages', value: 'packages' }];
+          }
+
           else if (gameData.categories) {
             categories = gameData.categories.map(c => ({
               name: c.label,
@@ -134,6 +154,21 @@ module.exports = {
           if (game === 'fishitBoost') {
             if (category === 'gift') base = gameData.giftPackages;
             if (category === 'login') base = gameData.loginPackages;
+          }
+
+          else if (game === 'robuxUsername') {
+            base = items.robuxUsernamePackages ?? [];
+          }
+
+          else if (game === 'kickLuckyBlock') {
+            base = gameData[category] ?? [];
+          }
+
+          else if (game === 'discordNitro') {
+            // discordNitro uses subcategories like nitro_boost, server_boost_1mo, etc.
+            // For autocomplete, show items from the exact category key
+            const catKey = category === 'server_boost' ? 'server_boost_1mo' : category;
+            base = gameData[catKey] ?? [];
           }
 
           else if (Array.isArray(gameData)) {
@@ -220,16 +255,19 @@ module.exports = {
 
     if (interaction.isButton()) {
 
-      if (id === 'robux_login') return robuxLogin.showPriceList(interaction);
-      if (id === 'robux_gamepass') return robuxGamepass.showPriceList(interaction);
-      if (id === 'robux_group') return robuxGroupPayout.showPriceList(interaction);
-      if (id === 'heartopia') return heartopia.showPriceList(interaction);
-      if (id === 'fishit') return fishit.showPriceList(interaction);
-      if (id === 'boost_fishit') return fishitBoost.showPriceList(interaction);
-      if (id === 'forge') return forge.showPriceList(interaction);
-      if (id === 'abyss') return abyss.showPriceList(interaction);
-      if (id === 'sawah') return sawahIndo.showPriceList(interaction);
-      if (id === 'game_lain') return gameLain.showPriceList(interaction);
+      if (id === 'robux_login')       return robuxLogin.showPriceList(interaction);
+      if (id === 'robux_gamepass')     return robuxGamepass.showPriceList(interaction);
+      if (id === 'robux_group')        return robuxGroupPayout.showPriceList(interaction);
+      if (id === 'robux_username')     return robuxUsername.showPriceList(interaction);
+      if (id === 'heartopia')          return heartopia.showPriceList(interaction);
+      if (id === 'fishit')             return fishit.showPriceList(interaction);
+      if (id === 'boost_fishit')       return fishitBoost.showPriceList(interaction);
+      if (id === 'forge')              return forge.showPriceList(interaction);
+      if (id === 'abyss')              return abyss.showPriceList(interaction);
+      if (id === 'sawah')              return sawahIndo.showPriceList(interaction);
+      if (id === 'game_lain')          return gameLain.showPriceList(interaction);
+      if (id === 'kick_lucky_block')   return kickLuckyBlock.showPriceList(interaction);
+      if (id === 'discord_nitro')      return discordNitro.showPriceList(interaction);
 
       if (id === 'ticket_close') return handleClose(interaction);
     }

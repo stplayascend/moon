@@ -46,23 +46,29 @@ module.exports = {
       );
 
       const row2 = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId('robux_username').setLabel('Robux Via Username').setStyle(ButtonStyle.Primary).setEmoji('👤').setDisabled(clean.includes('robux_username')),
         new ButtonBuilder().setCustomId('fishit').setLabel('Fish It').setStyle(ButtonStyle.Primary).setEmoji('🐟').setDisabled(clean.includes('fishit')),
-        new ButtonBuilder().setCustomId('boost_fishit').setLabel('Boost x8 Fish It').setStyle(ButtonStyle.Primary).setEmoji('🍀').setDisabled(clean.includes('boost_fishit')),
-        new ButtonBuilder().setCustomId('forge').setLabel('The Forge').setStyle(ButtonStyle.Primary).setEmoji('⛏').setDisabled(clean.includes('forge'))
+        new ButtonBuilder().setCustomId('boost_fishit').setLabel('Boost x8 Fish It').setStyle(ButtonStyle.Primary).setEmoji('🍀').setDisabled(clean.includes('boost_fishit'))
       );
 
       const row3 = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId('forge').setLabel('The Forge').setStyle(ButtonStyle.Primary).setEmoji('⛏').setDisabled(clean.includes('forge')),
         new ButtonBuilder().setCustomId('abyss').setLabel('Abyss').setStyle(ButtonStyle.Primary).setEmoji('🔮').setDisabled(clean.includes('abyss')),
-        new ButtonBuilder().setCustomId('sawah').setLabel('Sawah Indo').setStyle(ButtonStyle.Primary).setEmoji('🌾').setDisabled(clean.includes('sawah')),
-        new ButtonBuilder().setCustomId('game_lain').setLabel('Game Lain').setStyle(ButtonStyle.Primary).setEmoji('🎮').setDisabled(clean.includes('game_lain'))
+        new ButtonBuilder().setCustomId('sawah').setLabel('Sawah Indo').setStyle(ButtonStyle.Primary).setEmoji('🌾').setDisabled(clean.includes('sawah'))
       );
 
       const row4 = new ActionRowBuilder().addComponents(
-        new ButtonBuilder().setCustomId('heartopia').setLabel('Diamond Heartopia').setStyle(ButtonStyle.Primary).setEmoji('💎').setDisabled(clean.includes('heartopia'))
+        new ButtonBuilder().setCustomId('game_lain').setLabel('Game Lain').setStyle(ButtonStyle.Primary).setEmoji('🎮').setDisabled(clean.includes('game_lain')),
+        new ButtonBuilder().setCustomId('heartopia').setLabel('Diamond Heartopia').setStyle(ButtonStyle.Primary).setEmoji('💎').setDisabled(clean.includes('heartopia')),
+        new ButtonBuilder().setCustomId('kick_lucky_block').setLabel('Kick a Lucky Block').setStyle(ButtonStyle.Primary).setEmoji('🍀').setDisabled(clean.includes('kick_lucky_block'))
+      );
+
+      const row5 = new ActionRowBuilder().addComponents(
+        new ButtonBuilder().setCustomId('discord_nitro').setLabel('Discord Nitro').setStyle(ButtonStyle.Primary).setEmoji('💜').setDisabled(clean.includes('discord_nitro'))
       );
 
       await msg.edit({
-        components: [row1, row2, row3, row4]
+        components: [row1, row2, row3, row4, row5]
       });
     }
 

@@ -22,18 +22,20 @@ async function createTicket(interaction, { orderType, categoryKey, summaryText, 
 
   // ── Prefix Mapping ──────────────────────────
   const categoryPrefixes = {
-    robuxLogin: '🛄Rbxvilog',
-    robuxGamepass: '💳rbxdelay',
+    robuxLogin:       '🛄Rbxvilog',
+    robuxGamepass:    '💳rbxdelay',
     robuxGroupPayout: '👨‍👨‍👦‍👦Payout',
+    robuxUsername:    '🎮RbxUsername',
 
-    fishit: '🎮Gamepass',
-    fishitBoost: '🍀boostx8',
-    forge: '🎮Gamepass',
-    abyss: '🎮Gamepass',
-    sawah: '🎮Gamepass',
-    game: '🎮Gamepass',
+    fishit:     '🎮Gamepass',
+    fishitBoost:'🍀boostx8',
+    forge:      '🎮Gamepass',
+    abyss:      '🎮Gamepass',
+    sawah:      '🎮Gamepass',
+    game:       '🎮Gamepass',
 
-    heartopia: '💎heartopia'
+    heartopia:      '💎heartopia',
+    discordServices:'💜Discord',
   };
 
   // ── Username cleanup ────────────────────────
@@ -119,8 +121,16 @@ async function createTicket(interaction, { orderType, categoryKey, summaryText, 
       extraRole = config.robuxPayoutRoleId;
       break;
 
+    case 'robuxUsername':
+      extraRole = config.robuxAdminRoleId ?? config.robuxLoginRoleId;
+      break;
+
     case 'heartopia':
-      extraRole = null; // no extra role
+      extraRole = null;
+      break;
+
+    case 'discordServices':
+      extraRole = config.discordServicesRoleId;
       break;
 
     case 'games':
