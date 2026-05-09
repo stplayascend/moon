@@ -189,13 +189,11 @@ async function showTypeSelect(interaction) {
     .setPlaceholder('Pilih layanan...')
     .addOptions(items.discordNitro.categories);
 
-  const payload = {
+  return interaction.reply({
     embeds: [embed],
     components: [new ActionRowBuilder().addComponents(select)],
     ephemeral: true
-  };
-
-  return interaction.update(payload);
+  });
 }
 
 /* ───────────────────────────────────── */
