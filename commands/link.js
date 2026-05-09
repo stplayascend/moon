@@ -64,24 +64,32 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setLabel('Robux Via Group Payout')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('⚡')
-        .setDisabled(clean.includes('robux_group'))
-    );
+        .setDisabled(clean.includes('robux_group')),
 
-    // Row 2
-    const row2 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('robux_username')
         .setLabel('Robux Via Username')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('👤')
-        .setDisabled(clean.includes('robux_username')),
+        .setDisabled(clean.includes('robux_username'))
+    );
 
+    // Row 2
+    const row2 = new ActionRowBuilder().addComponents(
+      
       new ButtonBuilder()
         .setCustomId('fishit')
         .setLabel('Fish It')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🐟')
         .setDisabled(clean.includes('fishit')),
+
+      new ButtonBuilder()
+        .setCustomId('kick_lucky_block')
+        .setLabel('Kick a Lucky Block')
+        .setStyle(ButtonStyle.Primary)
+        .setEmoji('🍀')
+        .setDisabled(clean.includes('kick_lucky_block')),
 
       new ButtonBuilder()
         .setCustomId('boost_fishit')
@@ -131,16 +139,6 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setEmoji('💎')
         .setDisabled(clean.includes('heartopia')),
 
-      new ButtonBuilder()
-        .setCustomId('kick_lucky_block')
-        .setLabel('Kick a Lucky Block')
-        .setStyle(ButtonStyle.Primary)
-        .setEmoji('🍀')
-        .setDisabled(clean.includes('kick_lucky_block'))
-    );
-
-    // Row 5
-    const row5 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('discord_nitro')
         .setLabel('Discord Nitro')
