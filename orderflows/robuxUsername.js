@@ -72,8 +72,12 @@ async function showPriceList(interaction) {
       .setEmoji('🛒')
   );
 
-  await interaction.deferReply({ flags: 64 });
-  await interaction.editReply({ embeds: [embed], components: [row], files: [banner] });
+  await interaction.reply({
+  embeds: [embed],
+  components: [row],
+  files: [banner],
+  ephemeral: true
+});
 }
 
 /* ───────────────────────────────────── */
