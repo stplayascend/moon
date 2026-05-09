@@ -143,7 +143,7 @@ async function handleInteraction(interaction) {
 /* ───────────────────────────────────── */
 
 async function sendStep(interaction, data) {
-  return interaction.update(data);
+  return interaction.editReply(data);
 }
 async function replaceStep(interaction, data) {
   return interaction.update({ ...data, ephemeral: true });
@@ -216,7 +216,7 @@ async function showPackageSelect(interaction) {
     .setPlaceholder('Pilih paket...')
     .addOptions(available);
 
-return interaction.update({
+return interaction.editReply({
   embeds: [embed],
   components: [new ActionRowBuilder().addComponents(select)]
 });
