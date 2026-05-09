@@ -70,6 +70,13 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
     // Row 2
     const row2 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
+        .setCustomId('robux_username')
+        .setLabel('Robux Via Username')
+        .setStyle(ButtonStyle.Primary)
+        .setEmoji('👤')
+        .setDisabled(clean.includes('robux_username')),
+
+      new ButtonBuilder()
         .setCustomId('fishit')
         .setLabel('Fish It')
         .setStyle(ButtonStyle.Primary)
@@ -81,18 +88,18 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setLabel('Boost x8 Fish It')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🍀')
-        .setDisabled(clean.includes('boost_fishit')),
+        .setDisabled(clean.includes('boost_fishit'))
+    );
 
+    // Row 3
+    const row3 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('forge')
         .setLabel('The Forge')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('⛏')
-        .setDisabled(clean.includes('forge'))
-    );
+        .setDisabled(clean.includes('forge')),
 
-    // Row 3
-    const row3 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
         .setCustomId('abyss')
         .setLabel('Abyss')
@@ -105,29 +112,46 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
         .setLabel('Sawah Indo')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('🌾')
-        .setDisabled(clean.includes('sawah')),
-
-      new ButtonBuilder()
-        .setCustomId('game_lain')
-        .setLabel('Game Lain')
-        .setStyle(ButtonStyle.Primary)
-        .setEmoji('🎮')
-        .setDisabled(clean.includes('game_lain'))
+        .setDisabled(clean.includes('sawah'))
     );
 
     // Row 4
     const row4 = new ActionRowBuilder().addComponents(
       new ButtonBuilder()
+        .setCustomId('game_lain')
+        .setLabel('Game Lain')
+        .setStyle(ButtonStyle.Primary)
+        .setEmoji('🎮')
+        .setDisabled(clean.includes('game_lain')),
+
+      new ButtonBuilder()
         .setCustomId('heartopia')
         .setLabel('Diamond Heartopia')
         .setStyle(ButtonStyle.Primary)
         .setEmoji('💎')
-        .setDisabled(clean.includes('heartopia'))
+        .setDisabled(clean.includes('heartopia')),
+
+      new ButtonBuilder()
+        .setCustomId('kick_lucky_block')
+        .setLabel('Kick a Lucky Block')
+        .setStyle(ButtonStyle.Primary)
+        .setEmoji('🍀')
+        .setDisabled(clean.includes('kick_lucky_block'))
+    );
+
+    // Row 5
+    const row5 = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId('discord_nitro')
+        .setLabel('Discord Nitro')
+        .setStyle(ButtonStyle.Primary)
+        .setEmoji('💜')
+        .setDisabled(clean.includes('discord_nitro'))
     );
 
     const msg = await interaction.channel.send({
     embeds: [purchaseEmbed],
-    components: [row1, row2, row3, row4],
+    components: [row1, row2, row3, row4, row5],
     files: [banner]
     });
     global.panelData = {
