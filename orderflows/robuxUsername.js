@@ -39,13 +39,8 @@ async function loadPackages() {
 
   return [...baseFiltered, ...enabledFiltered];
 }
-
-/* ───────────────────────────────────── */
-
-async function showPriceList(interaction) {
+async function buildPriceEmbed() {
   const available = await loadPackages();
-
-  const banner = new AttachmentBuilder('./pricing.png');
 
   const embed = new EmbedBuilder()
     .setTitle('🎮 Robux Via Username – Price List')
@@ -55,12 +50,20 @@ async function showPriceList(interaction) {
     .setTimestamp();
 
   let desc = 'Rate: **110 / ⏣1**\n\n';
+
   available.forEach(p => {
     desc += `⏣ ${p.label}\n`;
   });
 
   embed.setDescription(desc);
 
+  return embed;
+}
+/* ───────────────────────────────────── */
+
+async function showPriceList(interaction) {  
+  const banner = new AttachmentBuilder('./pricing.png');
+  const embed = await buildPriceEmbed();
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId('ru_order')
@@ -132,12 +135,8 @@ async function handleInteraction(interaction) {
 /* ───────────────────────────────────── */
 
 async function sendStep(interaction, data) {
-  const payload = { ...data, ephemeral: true };
-  if (interaction.replied || interaction.deferred)
-    return interaction.followUp(payload);
-  return interaction.reply(payload);
+  return interaction.update(data);
 }
-
 async function replaceStep(interaction, data) {
   return interaction.update({ ...data, ephemeral: true });
 }
@@ -145,15 +144,6 @@ async function replaceStep(interaction, data) {
 /* ───────────────────────────────────── */
 
 async function showStep1(interaction) {
-  const embed = new EmbedBuilder()
-    .setTitle('⚠️ Mohon di baca dan pahami ⚠️')
-    .setColor(0x5865F2)
-    .setDescription(
-      'Sudah mengerti topup **Robux Via Username**?\n\n' +
-      '> Robux akan dikirim menggunakan metode Gamepass sesuai jumlah yang dipesan.\n' +
-      '> Pastikan username Roblox kamu aktif dan dapat menerima Robux.'
-    );
-
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId('ru_s1_yes')
@@ -166,7 +156,12 @@ async function showStep1(interaction) {
       .setStyle(ButtonStyle.Danger)
   );
 
-  return sendStep(interaction, { embeds: [embed], components: [row] });
+  const embed = await buildPriceEmbed();
+
+return sendStep(interaction, {
+  embeds: [embed],
+  components: [row]
+});
 }
 
 /* ───────────────────────────────────── */
@@ -207,25 +202,16 @@ async function showPackageSelect(interaction) {
     return interaction.reply(payload);
   }
 
-  const embed = new EmbedBuilder()
-    .setTitle('🔎 Detail Paket 🔎')
-    .setColor(0x5865F2)
-    .setDescription('👉 Pilih jumlah Robux yang diinginkan');
-
+  const embed = await buildPriceEmbed();
   const select = new StringSelectMenuBuilder()
     .setCustomId('ru_package_select')
     .setPlaceholder('Pilih paket...')
     .addOptions(available);
 
-  const payload = {
-    embeds: [embed],
-    components: [new ActionRowBuilder().addComponents(select)],
-    ephemeral: true
-  };
-
-  if (interaction.replied || interaction.deferred)
-    return interaction.followUp(payload);
-  return interaction.reply(payload);
+return interaction.update({
+  embeds: [embed],
+  components: [new ActionRowBuilder().addComponents(select)]
+});
 }
 
 /* ───────────────────────────────────── */
