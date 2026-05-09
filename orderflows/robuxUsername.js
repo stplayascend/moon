@@ -55,7 +55,7 @@ async function showPriceList(interaction) {
 
   let desc = 'Rate: **110 / ⏣1**\n\n';
   available.forEach(p => {
-    desc += `⏣ ${p.label}\n`;
+    desc += `${p.label}\n`;
   });
 
   embed.setDescription(desc);
