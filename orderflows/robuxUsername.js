@@ -42,7 +42,6 @@ async function loadPackages() {
 /* ───────────────────────────────────── */
 
 async function showPriceList(interaction) {
-  await interaction.deferReply({ flags: MessageFlags.Ephemeral });
   const available = await loadPackages();
 
   const banner = new AttachmentBuilder('./pricing.png');
