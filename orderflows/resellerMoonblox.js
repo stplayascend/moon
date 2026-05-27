@@ -77,9 +77,10 @@ async function showPackageSelect(interaction) {
     .setPlaceholder('Pilih paket...')
     .addOptions(items.resellerMoonbloxPackages);
 
-  return interaction.update({
+  await interaction.reply({
     embeds: [embed],
     components: [new ActionRowBuilder().addComponents(select)],
+    ephemeral: true,
   });
 }
 
