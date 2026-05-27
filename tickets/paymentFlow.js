@@ -66,11 +66,19 @@ Dana - 085283960141 AN Yani M.
       .setStyle(ButtonStyle.Success)
   );
 
-  await channel.send({
-    content: `Hey <@${user.id}> Once you complete your payment click here`,
-    components: [paymentDoneRow],
-    allowedMentions: { users: [user.id] },
-  });
+  const paymentDoneEmbed = new EmbedBuilder()
+      .setColor(0x57F287)
+      .setTitle('💰 Payment Pending')
+      .setDescription(
+        `Once you complete your payment click the button below`
+      );
+    
+    await channel.send({
+      content: `<@${user.id}>`, 
+      embeds: [paymentDoneEmbed],
+      components: [paymentDoneRow],
+      allowedMentions: { users: [user.id] },
+    });
 }
 
 async function handlePaymentDone(interaction) {
@@ -102,10 +110,11 @@ async function handlePaymentDone(interaction) {
     const verifyEmbed = new EmbedBuilder()
       .setColor(0xFEE75C)
       .setDescription(
-        `Hey <@${ownerUserId}> the Buyer has completed the payment`
+        `The Buyer has completed the payment`
       );
     
     await interaction.channel.send({
+      content: <@${ownerUserId}>,
       embeds: [verifyEmbed],
       components: [verifyRow],
       allowedMentions: { users: [ownerUserId] },
@@ -151,11 +160,12 @@ async function handlePaymentVerify(interaction) {
       .setColor(0x57F287)
       .setTitle('✅ Payment Verified')
       .setDescription(
-        `Hey <@${ticketMeta.userId}> Your purchase is successful\n` +
-        `Please wait until the admin proccesses your items`
+        `Your purchase is successful\n` +
+        `Please wait until the admin proccess your items`
       );
     
     await interaction.channel.send({
+      content: `<@${ticketMeta.userId}>`,
       embeds: [successEmbed],
       allowedMentions: { users: [ticketMeta.userId] },
     });
