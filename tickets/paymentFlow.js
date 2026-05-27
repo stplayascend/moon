@@ -114,7 +114,7 @@ async function handlePaymentDone(interaction) {
       );
     
     await interaction.channel.send({
-      content: <@${ownerUserId}>,
+      content: `<@${ownerUserId}>`,
       embeds: [verifyEmbed],
       components: [verifyRow],
       allowedMentions: { users: [ownerUserId] },
