@@ -99,8 +99,14 @@ async function handlePaymentDone(interaction) {
   );
 
   if (ownerUserId) {
+    const verifyEmbed = new EmbedBuilder()
+      .setColor(0xFEE75C)
+      .setDescription(
+        `Hey <@${ownerUserId}> the Buyer has completed the payment`
+      );
+    
     await interaction.channel.send({
-      content: `Hey <@${ownerUserId}> the Buyer has completed the payment`,
+      embeds: [verifyEmbed],
       components: [verifyRow],
       allowedMentions: { users: [ownerUserId] },
     });
@@ -141,10 +147,16 @@ async function handlePaymentVerify(interaction) {
   });
 
   if (ticketMeta.userId) {
-    await interaction.channel.send({
-      content:
+    const successEmbed = new EmbedBuilder()
+      .setColor(0x57F287)
+      .setTitle('✅ Payment Verified')
+      .setDescription(
         `Hey <@${ticketMeta.userId}> Your purchase is successful\n` +
-        'Please wait until the admin proccesses your items',
+        `Please wait until the admin proccesses your items`
+      );
+    
+    await interaction.channel.send({
+      embeds: [successEmbed],
       allowedMentions: { users: [ticketMeta.userId] },
     });
   }
