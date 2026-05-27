@@ -62,7 +62,7 @@ Dana - 085283960141 AN Yani M.
   const paymentDoneRow = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId('payment_done')
-      .setLabel('Payment Done')
+      .setLabel('Sudah transfer')
       .setStyle(ButtonStyle.Success)
   );
 
@@ -70,7 +70,7 @@ Dana - 085283960141 AN Yani M.
       .setColor(0x57F287)
       .setTitle('💰 Payment Pending')
       .setDescription(
-        `Once you complete your payment click the button below`
+        `Jika sudah transfer tolong click tombol di bawah ini `
       );
     
     await channel.send({
@@ -110,7 +110,7 @@ async function handlePaymentDone(interaction) {
     const verifyEmbed = new EmbedBuilder()
       .setColor(0xFEE75C)
       .setDescription(
-        `The Buyer has completed the payment`
+        `Pembeli sudah mengirimkan pembayaran`
       );
     
     await interaction.channel.send({
@@ -158,10 +158,10 @@ async function handlePaymentVerify(interaction) {
   if (ticketMeta.userId) {
     const successEmbed = new EmbedBuilder()
       .setColor(0x57F287)
-      .setTitle('✅ Payment Verified')
+      .setTitle('✅ Pembayaran di terima')
       .setDescription(
-        `Your purchase is successful\n` +
-        `Please wait until the admin proccess your items`
+        `Pembayaran mu telah kami terima!\n` +
+        `Silahkan menunggu admin untuk memproses pesananmu ✨`
       );
     
     await interaction.channel.send({
