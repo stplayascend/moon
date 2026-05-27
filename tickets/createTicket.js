@@ -213,6 +213,29 @@ async function createTicket(interaction, { orderType, categoryKey, summaryText, 
   });
 
   await sendPaymentInstructions(channel, user);
+  try {
+  const ticketLink = `https://discord.com/channels/${guild.id}/${channel.id}`;
+
+  const dmEmbed = new EmbedBuilder()
+    .setColor(0x5865F2)
+    .setTitle('📦 Order Summary')
+    .setDescription(
+      `Order sudah di buat! check ticket nya di sini:\n${ticketLink}`
+    )
+    .addFields({
+      name: '🛍️ Ringkasan Pesanan',
+      value: summaryText.trim().slice(0, 1024),
+    })
+    .setFooter({ text: 'MoonBlox Store' })
+    .setTimestamp();
+
+  await user.send({
+    embeds: [dmEmbed],
+  });
+
+} catch (error) {
+  console.error('[DM ERROR]:', error);
+}
 
   await interaction.editReply({
     content: `✅ Ticket created → ${channel}`,
