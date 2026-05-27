@@ -289,7 +289,7 @@ module.exports = {
 },
 slimeRng: {
   categories: [
-    { label: '🫟 Slime RNG', value: 'gamepass' },
+    { label: 'Gamepass', value: 'gamepass' },
     { label: '🔄 Spin', value: 'spin' },
     { label: '🍖 Food', value: 'food' },
     { label: '🚀 Boost', value: 'boost' },
