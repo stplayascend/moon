@@ -33,7 +33,8 @@ async function showPriceList(interaction) {
 • Robux masuk **instant tanpa delay** (jika sudah 2 minggu di group)
 
 🔗 Join group:
-https://www.roblox.com/communities/716400201/Moonbloomie\n
+https://www.roblox.com/communities/716400201/Moonbloomie
+https://www.roblox.com/communities/634467947/Moonie-Studio\n
 ✅Check ketersediaan akun di \nhttps://discord.com/channels/1435168751158038700/1435168759039000708 \nJika belum 2 minggu/not eligible silahkan tunggu sampai akun bisa di kirim payout.
 `)
     .setImage('attachment://pricing.png')
