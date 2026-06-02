@@ -214,7 +214,7 @@ async function handleOrderDone(interaction) {
       .setColor(0xE6D5FF)
       .setImage('attachment://review.jpg')
       .setDescription(
-        '✨ PESANAN MU SUDAH TERKIRIM, TERIMAKASIH SUDAH BERBELANJA DI MOONBLOX✨\n\n' +
+        '**✨ PESANAN MU SUDAH TERKIRIM, TERIMAKASIH SUDAH BERBELANJA DI MOONBLOX✨**\n\n' +
         'Apabila kalian merasa puas dengan pelayanan kami, bisa dukung kami dengan mengisi testimoni di <#1436690762866753536> dan memberi rating 5⭐ di ticket!\n\n' +
         '*Ticket akan ditutup beberapa saat lagi.*'
       );
