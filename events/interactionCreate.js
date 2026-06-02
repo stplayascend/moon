@@ -28,7 +28,8 @@ const {
 const { handleClose, handleCloseModal } = require('../tickets/closeTicket');
 const {
   handlePaymentDone,
-  handlePaymentVerify
+  handlePaymentVerify,
+  handleOrderDone
 } = require('../tickets/paymentFlow');
 
 const FLOW_HANDLERS = {
@@ -277,6 +278,7 @@ module.exports = {
 
       if (id === 'payment_done')       return handlePaymentDone(interaction);
       if (id === 'payment_verify')     return handlePaymentVerify(interaction);
+      if (id === 'order_done')         return handleOrderDone(interaction);
 
       if (id === 'ticket_close') return handleClose(interaction);
     }
