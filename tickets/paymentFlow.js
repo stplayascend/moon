@@ -164,16 +164,57 @@ async function handlePaymentVerify(interaction) {
         `Silahkan menunggu admin untuk memproses pesananmu ✨`
       );
     
+    const doneRow = new ActionRowBuilder().addComponents(
+      new ButtonBuilder()
+        .setCustomId('order_done')
+        .setLabel('Done')
+        .setStyle(ButtonStyle.Success)
+    );
+    
     await interaction.channel.send({
       content: `<@${ticketMeta.userId}>`,
       embeds: [successEmbed],
+      components: [doneRow],
       allowedMentions: { users: [ticketMeta.userId] },
     });
   }
 }
+async function handleOrderDone(interaction) {
+  const ownerUserId = config.ownerUserId;
+  const ticketMeta = getTicketMeta(interaction.channel);
 
+  if (interaction.user.id !== ownerUserId) {
+    return interaction.reply({
+      content: '❌ Only Moon can mark orders as done.',
+      ephemeral: true,
+    });
+  }
+
+  const disabledRow = ActionRowBuilder.from(
+    interaction.message.components[0]
+  );
+
+  disabledRow.components[0].setDisabled(true);
+
+  await interaction.update({
+    components: [disabledRow],
+  });
+
+  const reviewPath = path.resolve(__dirname, '..', 'review.jpg');
+
+  if (!fs.existsSync(reviewPath)) {
+    return interaction.channel.send('⚠️ review.jpg not found.');
+  }
+
+  await interaction.channel.send({
+    content: `<@${ticketMeta.userId}>`,
+    files: [new AttachmentBuilder(reviewPath)],
+    allowedMentions: { users: [ticketMeta.userId] },
+  });
+}
 module.exports = {
   sendPaymentInstructions,
   handlePaymentDone,
   handlePaymentVerify,
+  handleOrderDone,
 };
