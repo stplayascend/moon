@@ -206,9 +206,23 @@ async function handleOrderDone(interaction) {
     return interaction.channel.send('⚠️ review.jpg not found.');
   }
 
+  const reviewAttachment = new AttachmentBuilder(reviewPath, {
+  name: 'review.jpg',
+  });
+  
+  const reviewEmbed = new EmbedBuilder()
+    .setColor(0xE6D5FF)
+    .setImage('attachment://review.jpg')
+    .setDescription(
+      '✨ **TERIMAKASIH SUDAH BERBELANJA DI MOONBLOX!**\n\n' +
+      'Apabila kalian merasa puas dengan pelayanan kami, bisa dukung kami dengan mengisi testimoni di <#TESTIMONI_CHANNEL_ID> dan memberi rating 5⭐ di ticket!\n\n' +
+      '*Ticket akan ditutup beberapa saat lagi.*'
+    );
+  
   await interaction.channel.send({
     content: `<@${ticketMeta.userId}>`,
-    files: [new AttachmentBuilder(reviewPath)],
+    embeds: [reviewEmbed],
+    files: [reviewAttachment],
     allowedMentions: { users: [ticketMeta.userId] },
   });
 }
