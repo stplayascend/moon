@@ -7,11 +7,11 @@ module.exports = {
 
   // ── Robux Via Username ───────────────────────────────────
   robuxUsernamePackages: [
-    { label: '⏣ 100 Rbx – 11.000',  value: '100_rbx' },
-    { label: '⏣ 200 Rbx – 22.000',  value: '200_rbx' },
-    { label: '⏣ 300 Rbx – 33.000',  value: '300_rbx' },
-    { label: '⏣ 400 Rbx – 44.000',  value: '400_rbx' },
-    { label: '⏣ 500 Rbx – 55.000',  value: '500_rbx' },
+    { label: '⏣ 100 Rbx – 13.500',  value: '100_rbx' },
+    { label: '⏣ 200 Rbx – 27.000',  value: '200_rbx' },
+    { label: '⏣ 300 Rbx – 40.500',  value: '300_rbx' },
+    { label: '⏣ 400 Rbx – 54.000',  value: '400_rbx' },
+    { label: '⏣ 500 Rbx – 67.500',  value: '500_rbx' },
   ],
 
   // ── Kick a Lucky Block ───────────────────────────────────
