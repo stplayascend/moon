@@ -53,7 +53,7 @@ async function showPriceList(interaction) {
     .setFooter({ text: 'MoonBlox • Click Order to proceed' })
     .setTimestamp();
 
-  let desc = 'Rate: **110 / ⏣1**\n\n';
+  let desc = 'Rate: **135 / ⏣1**\n\n';
   available.forEach(p => {
     desc += `${p.label}\n`;
   });
