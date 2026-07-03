@@ -58,7 +58,7 @@ https://www.roblox.com/communities/716400201/Moonbloomie
 https://www.roblox.com/communities/634467947/Moonie-Studio
 
 **Cara membeli:**
-✅Check ketersediaan akun di 🤖 https://discord.com/channels/1435168751158038700/1435168759039000708, ketik \`/payout\` username
+✅Check ketersediaan akun di https://discord.com/channels/1435168751158038700/1435168759039000708, ketik \`/payout\` username
 Jika belum 2 minggu/not eligible silahkan tunggu sampai akun bisa di kirim payout.
 ✅Jika buyer memesan robux via group payout pada saat payout sedang tidak ready, buyer akan mengikuti harga rate 115 (lebih murah)
 ✅Pergantian rate normal dari 115 > 120
