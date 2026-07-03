@@ -71,14 +71,14 @@ Jika belum 2 minggu/not eligible silahkan tunggu sampai akun bisa di kirim payou
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId('rgp_order_po')
-      .setLabel('Order PO/Booked (115)')
+      .setLabel('Order PO/Booked')
       .setStyle(ButtonStyle.Primary)
       .setEmoji('🛒'),
     new ButtonBuilder()
       .setCustomId('rgp_order_ready')
-      .setLabel('Order Ready (120)')
+      .setLabel('Order Ready')
       .setStyle(ButtonStyle.Success)
-      .setEmoji('⚡')
+      .setEmoji('🛒')
   );
 
   await interaction.reply({
