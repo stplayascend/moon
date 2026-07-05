@@ -46,7 +46,7 @@ https://www.roblox.com/communities/634467947/Moonie-Studio
 **Cara membeli : **
 ✅Check ketersediaan akun di ⁠https://discord.com/channels/1435168751158038700/1435168759039000708 , ketik \`/payout\` username
 Jika belum 2 minggu/not eligible silahkan tunggu sampai akun bisa di kirim payout.
-✅Robux via group payout bersikap fleksible , bisa berapapun robux nya sesuai yang kalian inginkan ( tidak terpaku pada pricelist )
+✅Robux via group payout bersikap fleksible , bisa berapapun robux nya sesuai yang kalian inginkan (tidak terpaku pada pricelist)
 `)
     .setImage('attachment://pricing.png')
     .setFooter({ text: 'MoonBlox • Click Order to proceed' })
