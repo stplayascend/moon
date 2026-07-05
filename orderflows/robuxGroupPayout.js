@@ -15,13 +15,11 @@ const FLOW = 'rgp';
 
 // ADD THESE:
 const RATES = {
-  po: 115,
-  ready: 120
+  po: 115
 };
 
 const CATEGORY_LABELS = {
-  po: 'PO/Booked',
-  ready: 'Ready'
+  po: 'PO/Booked'
 };
 
 function formatIDR(amount) {
@@ -35,19 +33,12 @@ async function showPriceList(interaction) {
     .setTitle('⚡ Robux Via Group Payout – Price List')
     .setColor(0x57F287)
     .setDescription(`
-⚡ **Robux Via Group Payout PO/Booked – Price List**
+⚡ **Robux Via Group Payout – Price List**
 ⏣ **100 Rbx** - 11.500 💰
 ⏣ **500 Rbx** - 57.500 💰
 ⏣ **1.000 Rbx** - 115.000 💰
 ⏣ **10.000 Rbx** - 1.150.000 💰
 **Rate:** 115 / ⏣1
-
-⚡ **Robux Via Group Payout Ready – Price List**
-⏣ **100 Rbx** - 12.000 💰
-⏣ **500 Rbx** - 60.000 💰
-⏣ **1.000 Rbx** - 120.000 💰
-⏣ **10.000 Rbx** - 1.200.000 💰
-**Rate:** 120 / ⏣1
 
 📌 **Requirements**
 - Wajib berada di group minimal **2 minggu**
@@ -57,12 +48,10 @@ async function showPriceList(interaction) {
 https://www.roblox.com/communities/716400201/Moonbloomie
 https://www.roblox.com/communities/634467947/Moonie-Studio
 
-**Cara membeli:**
-✅Check ketersediaan akun di https://discord.com/channels/1435168751158038700/1435168759039000708, ketik \`/payout\` username
+**Cara membeli : **
+✅Check ketersediaan akun di ⁠https://discord.com/channels/1435168751158038700/1435168759039000708 , ketik \`/payout\` username
 Jika belum 2 minggu/not eligible silahkan tunggu sampai akun bisa di kirim payout.
-✅Jika buyer memesan robux via group payout pada saat payout sedang tidak ready, buyer akan mengikuti harga rate 115 (lebih murah)
-✅Pergantian rate normal dari 115 > 120
-✅Robux via group payout bersikap fleksibel, bisa berapapun robux nya sesuai yang kalian inginkan (tidak terpaku pada pricelist)
+✅Robux via group payout bersikap fleksible , bisa berapapun robux nya sesuai yang kalian inginkan ( tidak terpaku pada pricelist )
 `)
     .setImage('attachment://pricing.png')
     .setFooter({ text: 'MoonBlox • Click Order to proceed' })
@@ -71,13 +60,8 @@ Jika belum 2 minggu/not eligible silahkan tunggu sampai akun bisa di kirim payou
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
       .setCustomId('rgp_order_po')
-      .setLabel('Order PO/Booked')
+      .setLabel('Order')
       .setStyle(ButtonStyle.Primary)
-      .setEmoji('🛒'),
-    new ButtonBuilder()
-      .setCustomId('rgp_order_ready')
-      .setLabel('Order Ready')
-      .setStyle(ButtonStyle.Success)
       .setEmoji('🛒')
   );
 
@@ -94,10 +78,9 @@ async function handleInteraction(interaction) {
   const id = interaction.customId;
   const userId = interaction.user.id;
 
-   if (id === 'rgp_order_po' || id === 'rgp_order_ready') {
-      const category = id === 'rgp_order_po' ? 'po' : 'ready';
-      session.setSession(userId, { flow: FLOW, step: 1, category });
-      return showModal(interaction, category);
+   if (id === 'rgp_order_po') {
+      session.setSession(userId, { flow: FLOW, step: 1, category: 'po' });
+      return showModal(interaction, 'po');
     }
 
   if (interaction.isModalSubmit() && interaction.customId === 'rgp_modal') {
