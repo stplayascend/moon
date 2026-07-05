@@ -18,10 +18,6 @@ const RATES = {
   po: 115
 };
 
-const CATEGORY_LABELS = {
-  po: 'PO/Booked'
-};
-
 function formatIDR(amount) {
   return Math.round(amount).toLocaleString('id-ID');
 }
@@ -113,7 +109,7 @@ async function showModal(interaction, category) {
 
   const modal = new ModalBuilder()
     .setCustomId('rgp_modal')
-    .setTitle(`⚡Robux Payout (${CATEGORY_LABELS[category]})`);
+    .setTitle('⚡ Robux Via Group Payout')
 
   modal.addComponents(
     new ActionRowBuilder().addComponents(
@@ -146,7 +142,7 @@ const s = session.getSession(interaction.user.id);
     .setTitle('🛍️ Detail Pembelian 🛍️y')
     .setColor(0x5865F2)
     .setDescription(
-    `📄 **Produk:** ⚡ Robux Via Group Payout (${CATEGORY_LABELS[s.category]})\n` +
+    `📄 **Produk:** ⚡ Robux Via Group Payout\n`+
     `👤 **Username:** ${s.username}\n` +
     `💰 **Jumlah Robux:** ${s.amount}\n` +
     `📊 **Rate:** ${rate} / ⏣1\n` +
@@ -184,7 +180,7 @@ async function createTicket(interaction) {
   const total = Number(s.amount) * rate;
 
   const summary = `
-**📋Produk:** Robux Via Group Payout (${CATEGORY_LABELS[s.category]})
+**📋Produk:** Robux Via Group Payout
 **👤Username:** ${s.username}
 **💰Jumlah Robux:** ${s.amount} Robux
 **📊Rate:** ${rate} / ⏣1
