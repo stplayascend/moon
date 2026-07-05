@@ -79,13 +79,13 @@ module.exports = {
   robuxLoginPackages: [
   { label: '💎 Non Premium • 500R – Rp 75.000', value: '500R' },
   { label: '💎 Non Premium • 1.000R – Rp 150.000', value: '1000R' },
-  { label: '💎 Non Premium • 1.500R – Rp 225.000', value: '1000R' },
+  { label: '💎 Non Premium • 1.500R – Rp 225.000', value: '1500R' },
   { label: '💎 Non Premium • 2.000R – Rp 300.000', value: '2000R' },
-  { label: '💎 Non Premium • 2.500R – Rp 375.000', value: '1000R' },
+  { label: '💎 Non Premium • 2.500R – Rp 375.000', value: '2500R' },
   { label: '💎 Non Premium • 3.000R – Rp 450.000', value: '3000R' },
-  { label: '💎 Non Premium • 3.500R – Rp 525.000', value: '1000R' },
+  { label: '💎 Non Premium • 3.500R – Rp 525.000', value: '3500R' },
   { label: '💎 Non Premium • 4.000R – Rp 600.000', value: '4000R' },
-  { label: '💎 Non Premium • 4.500R – Rp 675.000', value: '1000R' },
+  { label: '💎 Non Premium • 4.500R – Rp 675.000', value: '4500R' },
   { label: '💎 Non Premium • 5.000R – Rp 750.000', value: '5000R' },
 ],
 
