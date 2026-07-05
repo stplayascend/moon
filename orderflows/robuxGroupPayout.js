@@ -33,7 +33,6 @@ async function showPriceList(interaction) {
     .setTitle('⚡ Robux Via Group Payout – Price List')
     .setColor(0x57F287)
     .setDescription(`
-⚡ **Robux Via Group Payout – Price List**
 ⏣ **100 Rbx** - 11.500 💰
 ⏣ **500 Rbx** - 57.500 💰
 ⏣ **1.000 Rbx** - 115.000 💰
