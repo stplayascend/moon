@@ -81,8 +81,8 @@ module.exports = {
   { label: '🧸 Premium • 1.000R + Prem – Rp 145.000', value: '1000P' },
   { label: '🧸 Premium • 2.200R + Prem – Rp 300.000', value: '2200P' },
 
-  { label: '💎 Non Premium • 500R – Rp 70.000', value: '500R' },
-  { label: '💎 Non Premium • 1.000R – Rp 140.000', value: '1000R' },
+  { label: '💎 Non Premium • 500R – Rp 75.000', value: '500R' },
+  { label: '💎 Non Premium • 1.000R – Rp 150.000', value: '1000R' },
   { label: '💎 Non Premium • 2.000R – Rp 280.000', value: '2000R' },
   { label: '💎 Non Premium • 3.000R – Rp 420.000', value: '3000R' },
   { label: '💎 Non Premium • 4.000R – Rp 560.000', value: '4000R' },
