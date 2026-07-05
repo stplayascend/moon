@@ -53,10 +53,15 @@ async function showPriceList(interaction) {
     .setFooter({ text: 'MoonBlox • Click Order to proceed' })
     .setTimestamp();
 
-  let desc = 'Rate: **135 / ⏣1**\n\n';
+  let desc = 'Rate: **145 / ⏣1**\n\n';
   available.forEach(p => {
     desc += `${p.label}\n`;
   });
+
+  desc += '\n📌 **Requirements :**\n';
+  desc += '- 1 akun hanya bisa menerima 500rbx dalam 24jam\n';
+  desc += '- Book lebih dari 500rbx di perbolehkan , dengan ketersediaan menunggu cooldown\n';
+  desc += '- Robux yang di pake legal **TIDAK AKAN KE ROLLBACK**';
 
   embed.setDescription(desc);
 
