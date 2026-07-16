@@ -18,6 +18,13 @@ function getTicketMeta(channel) {
     return {};
   }
 }
+function isAuthorizedAdmin(interaction) {
+  const userId = interaction.user.id;
+  if (userId === config.ownerUserId) return true;
+  if (config.adminUserIds.includes(userId)) return true;
+  if (config.adminRoleId && interaction.member?.roles?.cache?.has(config.adminRoleId)) return true;
+  return false;
+}
 
 function getPaymentQrPath() {
   const configuredPath = config.paymentQrImagePath || 'payment-qr.png';
@@ -141,12 +148,12 @@ async function handlePaymentVerify(interaction) {
   const ownerUserId = config.ownerUserId;
   const ticketMeta = getTicketMeta(interaction.channel);
 
-  if (!ownerUserId || interaction.user.id !== ownerUserId) {
+  if (!isAuthorizedAdmin(interaction)) {
     return interaction.reply({
-      content: '❌ Only Moon can verify this payment.',
+      content: '❌ Only Moon or an authorized admin can verify this payment.',
       ephemeral: true,
     });
-  }
+}
 
   const disabledRow = ActionRowBuilder.from(interaction.message.components[0]);
   disabledRow.components[0].setDisabled(true);
@@ -183,12 +190,12 @@ async function handleOrderDone(interaction) {
   const ownerUserId = config.ownerUserId;
   const ticketMeta = getTicketMeta(interaction.channel);
 
-  if (interaction.user.id !== ownerUserId) {
+  if (!isAuthorizedAdmin(interaction)) {
     return interaction.reply({
-      content: '❌ Only Moon can mark orders as done.',
+      content: '❌ Only Moon or an authorized admin can mark orders as done.',
       ephemeral: true,
     });
-  }
+}
 
   const disabledRow = ActionRowBuilder.from(
     interaction.message.components[0]
