@@ -16,6 +16,7 @@ module.exports = {
   discordServicesRoleId:  process.env.DISCORD_SERVICES_ROLE_ID,
   resellerRoleId:         process.env.RESELLER_ROLE_ID,
   ownerUserId:            process.env.OWNER_USER_ID,
+  adminUserIds:           (process.env.ADMIN_USER_IDS || '').split(',').map(id => id.trim()).filter(Boolean),
   paymentQrImagePath:     process.env.PAYMENT_QR_IMAGE,
 
   // Ticket categories (Discord category channel IDs)
