@@ -12,6 +12,13 @@ const {
 const session = require('./sessionManager');
 
 const FLOW = 'gl';
+const RATES = {
+  gl: 87
+};
+
+function formatIDR(amount) {
+  return Math.round(amount).toLocaleString('id-ID');
+}
 
 async function showPriceList(interaction) {
 
@@ -91,6 +98,9 @@ async function showModal(interaction) {
 
 async function showSummary(interaction) {
   const s     = session.getSession(interaction.user.id);
+  const rate  = RATES.gl;
+  const total = Number(s.robux) * rate;
+
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Pembelian 🛍️')
     .setColor(0x5865F2)
@@ -99,7 +109,9 @@ async function showSummary(interaction) {
     `👤 **Username:** ${s.username}\n` +
     `🌍 **Map / Game:** ${s.mapName}\n` +
     `🛍️ **Item:** ${s.itemName}\n` +
-    `💰 **Total Robux:** ${s.robux}`
+    `💰 **Total Robux:** ${s.robux}\n` +
+    `📊 **Rate:** ${rate} / ⏣1\n` +
+    `💵 **Total:** ${formatIDR(total)} 💰`
   )
     .setFooter({ text: 'Admin will confirm price & availability in the ticket.' });
 
@@ -114,8 +126,10 @@ async function showSummary(interaction) {
 async function createTicket(interaction) {
   const { createTicket: openTicket } = require('../tickets/createTicket');
   const s = session.getSession(interaction.user.id);
+  const rate = RATES.gl;
+  const total = Number(s.robux) * rate;
 
-  const summary = `**📋Produk:** 🎮 Game Lain\n**👤Username:** ${s.username}\n**🌍Map / Game:** ${s.mapName}\n**🛍️Item:** ${s.itemName}\n**💰Total robux** ${s.robux}`;
+  const summary = `**📋Produk:** 🎮 Game Lain\n**👤Username:** ${s.username}\n**🌍Map / Game:** ${s.mapName}\n**🛍️Item:** ${s.itemName}\n**💰Total robux** ${s.robux}\n**📊Rate:** ${rate} / ⏣1\n**💵Total:** ${formatIDR(total)} 💰`;
   const instruction = `📌 **Instruksi:**
 • Pengiriman Item di Private Server yang kami berikan
 • Mohon tunggu admin untuk gift item mu di Ps kami.
