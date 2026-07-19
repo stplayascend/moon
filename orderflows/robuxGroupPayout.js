@@ -15,7 +15,7 @@ const FLOW = 'rgp';
 
 // ADD THESE:
 const RATES = {
-  po: 115
+  po: 120
 };
 
 function formatIDR(amount) {
@@ -29,11 +29,11 @@ async function showPriceList(interaction) {
     .setTitle('⚡ Robux Via Group Payout – Price List')
     .setColor(0x57F287)
     .setDescription(`
-⏣ **100 Rbx** - 11.500 💰
-⏣ **500 Rbx** - 57.500 💰
-⏣ **1.000 Rbx** - 115.000 💰
-⏣ **10.000 Rbx** - 1.150.000 💰
-**Rate:** 115 / ⏣1
+⏣ **100 Rbx** - 12.000 💰
+⏣ **500 Rbx** - 60.000 💰
+⏣ **1.000 Rbx** - 120.000 💰
+⏣ **10.000 Rbx** - 1.200.000 💰
+**Rate:** 120 / ⏣1
 
 📌 **Requirements**
 - Wajib berada di group minimal **2 minggu**
@@ -139,7 +139,7 @@ const s = session.getSession(interaction.user.id);
   const total = Number(s.amount) * rate;
 
   const embed = new EmbedBuilder()
-    .setTitle('🛍️ Detail Pembelian 🛍️y')
+    .setTitle('🛍️ Detail Pembelian 🛍️')
     .setColor(0x5865F2)
     .setDescription(
     `📄 **Produk:** ⚡ Robux Via Group Payout\n`+
