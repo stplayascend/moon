@@ -396,8 +396,7 @@ dragonAdventures: {
 },
 
 resellerMoonbloxPackages: [
-  { label: '👑 Normal Reseller - 100.000 / bulan', value: 'normal' },
-  { label: '👑 Premium Reseller - 200.000 / bulan', value: 'premium' },
+  { label: '👑 Reseller Moonblox - 100.000 / bulan', value: 'normal' },
 ],
 
 heartopiaPackages: [
