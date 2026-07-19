@@ -25,25 +25,14 @@ async function showPriceList(interaction) {
 Ingin join jadi reseller di Moonblox? Bisa banget! ✨
 Dapatkan berbagai benefit menarik dan harga spesial khusus reseller 💸
 
-**👑 Normal Reseller - 100.000 per bulan**
-🎁 GIG / Robux via Gamepass before tax rate 80
+**👑 Join Reseller - 100.000 per bulan** (di hitung dari orderan pertama)
+🎁 GIG / Robux via Gamepass before tax rate 85
 👥 Robux via Group Payout rate 110
-💎 Limited item rate 55 (normal rate 65)
+💎 Limited item rate 60 (normal rate 65)
 🔐 Robux via Login rate 67.5k / 500 Rbx
-📱 Akses langsung ke WhatsApp pribadi admin
+📱 Akses langsung ke WhatsApp pribadi admin (ada orderan pagi buta? bisa langsung call & diproses secepatnya)
 🕐 Fast response & 24 jam services
 📦 Prioritas stock & proses order
-✨ Dan masih banyak benefit lainnya!
-
-**👑 Premium Reseller - 200.000 per bulan**
-🎁 GIG / Robux via Gamepass before tax rate 80
-👥 Robux via Group Payout rate 105
-💎 Limited item rate 50 (normal rate 65)
-🔐 Robux via Login rate 65k / 500 Rbx
-📱 Akses langsung ke WhatsApp pribadi admin
-🕐 Fast response & 24 jam services
-📦 Prioritas stock & proses order
-👥 Bisa dibuatkan group atas nama store mu sendiri
 ✨ Dan masih banyak benefit lainnya!
 
 Cocok buat kalian yang ingin mulai jualan robux, limited, ataupun build store sendiri bareng Moonblox 🌙`
