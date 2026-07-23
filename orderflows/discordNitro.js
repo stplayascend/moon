@@ -51,6 +51,7 @@ async function showPriceList(interaction) {
   const sb1mo      = await loadItems('server_boost_1mo');
   const sb3mo      = await loadItems('server_boost_3mo');
   const decoration = await loadItems('decoration');
+  const accountSale = await loadItems('account_sale');
 
   const embed = new EmbedBuilder()
     .setTitle('💜 Discord Services – Price List')
@@ -68,6 +69,12 @@ ${sb3mo.map(i => i.label).join('\n') || '*Currently unavailable*'}
 **Decoration**
 Harga Resmi > Harga Store
 ${decoration.map(i => i.label).join('\n') || '*Currently unavailable*'}
+
+**Account For Sale**
+${accountSale.map(i => i.label).join('\n') || '*Currently unavailable*'}
+> ➢ Limited stock jadi tanya dulu yaa!
+> ➢ Take se email-emailnya
+> ➢ Full Warranty
 `
     )
     .setImage('attachment://pricing.png')
@@ -170,6 +177,7 @@ async function handleInteraction(interaction) {
 function resolvePackageCategory(s) {
   if (s.serviceType === 'nitro_boost')  return 'nitro_boost';
   if (s.serviceType === 'decoration')   return 'decoration';
+  if (s.serviceType === 'account_sale') return 'account_sale';
   if (s.serviceType === 'server_boost') {
     return s.duration === '3mo' ? 'server_boost_3mo' : 'server_boost_1mo';
   }
@@ -284,7 +292,8 @@ async function showSummary(interaction) {
   const typeLabel = {
     nitro_boost:  '🔵 Nitro Boost',
     server_boost: '🚀 Server Boost',
-    decoration:   '🎨 Decoration'
+    decoration:   '🎨 Decoration',
+    account_sale: '📋 Account For Sale',
   }[s.serviceType] ?? s.serviceType;
 
   const durationLabel = s.duration
@@ -325,7 +334,8 @@ async function createTicket(interaction) {
   const typeLabel = {
     nitro_boost:  '🔵 Nitro Boost',
     server_boost: '🚀 Server Boost',
-    decoration:   '🎨 Decoration'
+    decoration:   '🎨 Decoration',
+    account_sale: '📋 Account For Sale',
   }[s.serviceType] ?? s.serviceType;
 
   const durationLabel = s.duration
