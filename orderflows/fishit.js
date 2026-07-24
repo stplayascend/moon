@@ -300,7 +300,7 @@ async function showItemSelect(interaction, category, page = 0) {
 
   const select = new StringSelectMenuBuilder()
     .setCustomId('fi_item_select')
-    .setPlaceholder('Pilih Item • Page ${page + 1}/${totalPages}`)
+    .setPlaceholder(`Pilih Item • Page ${page + 1}/${totalPages}`)
     .addOptions(pageItems);
 
   const rows = [
