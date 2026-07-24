@@ -129,6 +129,20 @@ async function handleInteraction(interaction) {
 
     return showItemSelect(interaction, category);
   }
+  if (id.startsWith('fi_prev_') || id.startsWith('fi_next_')) {
+
+  const s = session.getSession(userId);
+
+  let page = Number(id.split('_')[2]);
+
+  if (id.startsWith('fi_prev_')) {
+    page--;
+  } else {
+    page++;
+  }
+
+  return showItemSelect(interaction, s.category, page);
+}
 
   if (id === 'fi_item_select') {
 
@@ -256,7 +270,7 @@ async function showCategorySelect(interaction) {
 
 /* ───────────────────────────────────── */
 
-async function showItemSelect(interaction, category) {
+async function showItemSelect(interaction, category, page = 0) {
 
   const available = await loadItems('fishit', category);
 
@@ -268,19 +282,52 @@ async function showItemSelect(interaction, category) {
     });
   }
 
+  const PAGE_SIZE = 25;
+  const totalPages = Math.ceil(available.length / PAGE_SIZE);
+  page = Math.max(0, Math.min(page, totalPages - 1));
+
+  const pageItems = available.slice(
+    page * PAGE_SIZE,
+    (page + 1) * PAGE_SIZE
+  );
+
   const embed = new EmbedBuilder()
     .setTitle('🛍️ Detail Produk 🛍️')
-    .setColor(0xFEE75C)
-    .setDescription('🛒 Pilih item yang ingin di beli 🛒');
+    .setDescription(
+      `🛒 Pilih item yang ingin di beli\n\nPage ${page + 1}/${totalPages}`
+    )
+    .setColor(0xFEE75C);
 
   const select = new StringSelectMenuBuilder()
     .setCustomId('fi_item_select')
-    .setPlaceholder('Pilih Items...')
-    .addOptions(available);
+    .setPlaceholder('Pilih Item • Page ${page + 1}/${totalPages}`)
+    .addOptions(pageItems);
+
+  const rows = [
+    new ActionRowBuilder().addComponents(select)
+  ];
+
+  if (totalPages > 1) {
+    rows.push(
+      new ActionRowBuilder().addComponents(
+        new ButtonBuilder()
+          .setCustomId(`fi_prev_${page}`)
+          .setLabel('⬅ Previous')
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(page === 0),
+
+        new ButtonBuilder()
+          .setCustomId(`fi_next_${page}`)
+          .setLabel('Next ➡')
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(page === totalPages - 1)
+      )
+    );
+  }
 
   return interaction.update({
     embeds: [embed],
-    components: [new ActionRowBuilder().addComponents(select)]
+    components: rows
   });
 }
 
