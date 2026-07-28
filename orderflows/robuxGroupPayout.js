@@ -40,8 +40,12 @@ async function showPriceList(interaction) {
 - Robux masuk **instant tanpa delay** (jika sudah 2 minggu di group)
 
 🔗 Join group:
-https://www.roblox.com/communities/716400201/Moonbloomie
-https://www.roblox.com/communities/634467947/Moonie-Studio
+Group 1
+https://www.roblox.com/communities/634467947/Moonie-Studio#!/about
+Group 2
+https://www.roblox.com/communities/522885194/Dreamies-Studio#!/about
+Group 3
+https://www.roblox.com/communities/438664165/Galaxies-World#!/about
 
 **Cara membeli : **
 ✅Check ketersediaan akun di ⁠https://discord.com/channels/1435168751158038700/1435168759039000708 , ketik \`/payout\` username
