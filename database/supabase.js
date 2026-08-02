@@ -130,6 +130,45 @@ async function addEnabledItem(game, category, label, value, position) {
     throw error;
   }
 }
+async function getRemovedButtons() {
+  const { data, error } = await supabase
+    .from('removed_buttons')
+    .select('button');
+
+  if (error) {
+    console.error('[Supabase] getRemovedButtons error:', error.message);
+    return [];
+  }
+
+  return data.map(r => r.button.toLowerCase().trim());
+}
+
+async function removeButtonFully(button) {
+  const { error } = await supabase
+    .from('removed_buttons')
+    .upsert({ button: button.toLowerCase().trim() });
+
+  if (error) {
+    console.error('[Supabase] removeButtonFully error:', error.message);
+    return false;
+  }
+
+  return true;
+}
+
+async function insertButtonFully(button) {
+  const { error } = await supabase
+    .from('removed_buttons')
+    .delete()
+    .eq('button', button.toLowerCase().trim());
+
+  if (error) {
+    console.error('[Supabase] insertButtonFully error:', error.message);
+    return false;
+  }
+
+  return true;
+}
 /* ─────────────────────────────
    TICKETS
 ──────────────────────────── */
@@ -228,5 +267,8 @@ module.exports = {
   closeTicketRecord,
   getDisabledButtons,
   disableButton,
-  enableButton
+  enableButton,
+  getRemovedButtons,
+  removeButtonFully,
+  insertButtonFully
 };
