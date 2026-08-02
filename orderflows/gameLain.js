@@ -13,7 +13,7 @@ const session = require('./sessionManager');
 
 const FLOW = 'gl';
 const RATES = {
-  gl: 87
+  gl: 95
 };
 
 function formatIDR(amount) {
@@ -89,7 +89,7 @@ async function showModal(interaction) {
       new TextInputBuilder().setCustomId('gl_itemname').setLabel('🛍️Item').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('e.g. Gomu Gomu no Mi')
     ),
     new ActionRowBuilder().addComponents(
-      new TextInputBuilder().setCustomId('gl_robux').setLabel('💰Total robux').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('e.g. 1500')
+      new TextInputBuilder().setCustomId('gl_robux').setLabel('💰Total Robux ( Pecahan 5 dan 10 cntoh : 142rbx = 145, 889rbx = 900 )').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('Contoh : Blox Fruits')
     ),
   );
 
