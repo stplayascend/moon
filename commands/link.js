@@ -1,4 +1,4 @@
-const { getDisabledButtons } = require('../database/supabase');
+const { getDisabledButtons, getRemovedButtons } = require('../database/supabase');
 const {
   SlashCommandBuilder,
   EmbedBuilder,
@@ -23,6 +23,7 @@ module.exports = {
     }
 
     const disabled = await getDisabledButtons();
+    const removed = await getRemovedButtons();
     const banner = new AttachmentBuilder('./pricing.png');
 
     const purchaseEmbed = new EmbedBuilder()
@@ -44,7 +45,7 @@ Setelah menemukan produk yang kamu butuhkan, kamu bisa langsung membuka ticket s
 
     const msg = await interaction.channel.send({
       embeds: [purchaseEmbed],
-      components: buildPanelRows(disabled),
+      components: buildPanelRows(disabled, removed),
       files: [banner],
     });
 
