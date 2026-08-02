@@ -12,21 +12,25 @@ function normalizeDisabledButtons(disabledButtons = []) {
   );
 }
 
-function buildPanelRows(disabledButtons = []) {
-  const clean = normalizeDisabledButtons(disabledButtons);
+function buildPanelRows(disabledButtons = [], removedButtons = []) {
+  const disabledClean = normalizeDisabledButtons(disabledButtons);
+  const removedClean = normalizeDisabledButtons(removedButtons);
 
-  return panelButtons.map(row =>
-    new ActionRowBuilder().addComponents(
-      row.map(button =>
-        new ButtonBuilder()
-          .setCustomId(button.id)
-          .setLabel(button.label)
-          .setStyle(ButtonStyle.Primary)
-          .setEmoji(button.emoji)
-          .setDisabled(clean.includes(button.id))
+  return panelButtons
+    .map(row => row.filter(button => !removedClean.includes(button.id)))
+    .filter(row => row.length > 0)
+    .map(row =>
+      new ActionRowBuilder().addComponents(
+        row.map(button =>
+          new ButtonBuilder()
+            .setCustomId(button.id)
+            .setLabel(button.label)
+            .setStyle(ButtonStyle.Primary)
+            .setEmoji(button.emoji)
+            .setDisabled(disabledClean.includes(button.id))
+        )
       )
-    )
-  );
+    );
 }
 
 function getAllPanelButtonIds() {
