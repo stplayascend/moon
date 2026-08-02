@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
-const { enableButton, getDisabledButtons } = require('../database/supabase');
+const { enableButton, getDisabledButtons, getRemovedButtons } = require('../database/supabase');
 const { buildPanelRows } = require('../utils/panelRows');
 
 module.exports = {
@@ -34,7 +34,7 @@ module.exports = {
       const msg = await channel.messages.fetch(panel.messageId);
 
       await msg.edit({
-        components: buildPanelRows(await getDisabledButtons()),
+        components: buildPanelRows(await getDisabledButtons(), await getRemovedButtons()),
       });
     }
 
