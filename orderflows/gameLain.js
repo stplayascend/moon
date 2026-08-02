@@ -83,13 +83,13 @@ async function showModal(interaction) {
       new TextInputBuilder().setCustomId('gl_username').setLabel('👤Username').setStyle(TextInputStyle.Short).setRequired(true)
     ),
     new ActionRowBuilder().addComponents(
-      new TextInputBuilder().setCustomId('gl_mapname').setLabel('🌍Nama map/Game').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('e.g. Blox Fruits')
+      new TextInputBuilder().setCustomId('gl_mapname').setLabel('🌍Nama map/Game').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('Contoh: Blox Fruits')
     ),
     new ActionRowBuilder().addComponents(
-      new TextInputBuilder().setCustomId('gl_itemname').setLabel('🛍️Item').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('e.g. Gomu Gomu no Mi')
+      new TextInputBuilder().setCustomId('gl_itemname').setLabel('🛍️Item').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('Contoh: Gomu Gomu no Mi')
     ),
     new ActionRowBuilder().addComponents(
-      new TextInputBuilder().setCustomId('gl_robux').setLabel('💰Total Robux ( Pecahan 5 dan 10 cntoh : 142rbx = 145, 889rbx = 900 )').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('Contoh : Blox Fruits')
+      new TextInputBuilder().setCustomId('gl_robux').setLabel('💰Total Robux (Kelipatan 5/10)').setStyle(TextInputStyle.Short).setRequired(true).setPlaceholder('Contoh: 142rbx → 145, 889rbx → 900')
     ),
   );
 
