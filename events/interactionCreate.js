@@ -87,6 +87,30 @@ module.exports = {
       .map(c => ({ name: c, value: c }))
   );
 }
+if (interaction.commandName === 'delete' || interaction.commandName === 'insert') {
+  const focused = interaction.options.getFocused().toLowerCase();
+
+  const allButtons = getAllPanelButtonIds();
+
+  const { getRemovedButtons } = require('../database/supabase');
+  const removed = await getRemovedButtons();
+
+  let choices = [];
+
+  if (interaction.commandName === 'delete') {
+    choices = allButtons.filter(b => !removed.includes(b));
+  }
+
+  if (interaction.commandName === 'insert') {
+    choices = allButtons.filter(b => removed.includes(b));
+  }
+
+  return interaction.respond(
+    choices
+      .filter(c => c.toLowerCase().includes(focused))
+      .map(c => ({ name: c, value: c }))
+  );
+}
       try {
         const focused = interaction.options.getFocused(true) || {};
         const search = (focused.value || '').toLowerCase();
