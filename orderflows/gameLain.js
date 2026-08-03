@@ -25,7 +25,7 @@ async function showPriceList(interaction) {
   const banner = new AttachmentBuilder('./pricing.png', { name: 'pricing.png' });
 
   const embed = new EmbedBuilder()
-    .setTitle('🎮 Game Lain – Custom Order')
+    .setTitle('🎮 Gift In Game – Custom Order')
     .setColor(0x5865F2)
     .setDescription(`
 🎫 Mohon beritahu kamu detail order map/jumlah robuxnya, admin akan berikan Harga di ticket 🎫.
@@ -105,7 +105,7 @@ async function showSummary(interaction) {
     .setTitle('🛍️ Detail Pembelian 🛍️')
     .setColor(0x5865F2)
     .setDescription(
-    `📋 **Produk:** Game Lain (Custom)\n` +
+    `📋 **Produk:** Gift In Game (Custom)\n` +
     `👤 **Username:** ${s.username}\n` +
     `🌍 **Map / Game:** ${s.mapName}\n` +
     `🛍️ **Item:** ${s.itemName}\n` +
@@ -129,7 +129,7 @@ async function createTicket(interaction) {
   const rate = RATES.gl;
   const total = Number(s.robux) * rate;
 
-  const summary = `**📋Produk:** 🎮 Game Lain\n**👤Username:** ${s.username}\n**🌍Map / Game:** ${s.mapName}\n**🛍️Item:** ${s.itemName}\n**💰Total robux** ${s.robux}\n**📊Rate:** ${rate} / ⏣1\n**💵Total:** ${formatIDR(total)} 💰`;
+  const summary = `**📋Produk:** 🎮 Gift In Game\n**👤Username:** ${s.username}\n**🌍Map / Game:** ${s.mapName}\n**🛍️Item:** ${s.itemName}\n**💰Total robux** ${s.robux}\n**📊Rate:** ${rate} / ⏣1\n**💵Total:** ${formatIDR(total)} 💰`;
   const instruction = `📌 **Instruksi:**
 • Pengiriman Item di Private Server yang kami berikan
 • Mohon tunggu admin untuk gift item mu di Ps kami.
@@ -137,7 +137,7 @@ async function createTicket(interaction) {
 • Selesaikan pembayaran sesuai arahan admin.
 • Pastikan username Roblox kamu sudah benar sebelum admin memproses.
 • Setelah selesai, tiket akan ditutup oleh admin.`;
-  await openTicket(interaction, { orderType: 'Game Lain', categoryKey: 'games', summaryText: summary, instructionText: instruction });
+  await openTicket(interaction, { orderType: 'Gift In Game', categoryKey: 'games', summaryText: summary, instructionText: instruction });
   session.deleteSession(interaction.user.id);
 }
 
