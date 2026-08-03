@@ -14,7 +14,7 @@ module.exports = [
   ],
   [
     { id: 'sawah', label: 'Sawah Indo', emoji: '🌾' },
-    { id: 'game_lain', label: 'Game Lain', emoji: '🎮' },
+    { id: 'game_lain', label: 'Gift In Game', emoji: '🎮' },
     { id: 'heartopia', label: 'Diamond Heartopia', emoji: '💎' },
     { id: 'discord_nitro', label: 'Discord Nitro', emoji: '💕' },
     { id: 'slime_rng', label: 'Slime RNG', emoji: '🫟' },
