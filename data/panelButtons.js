@@ -5,9 +5,9 @@ module.exports = [
     { id: 'robux_username', label: 'Robux Via Username', emoji: '👤' },
   ],
   [
-    { id: 'robux_group_1', label: 'Robuk Via Group payout 1', emoji: '⚡' },
-    { id: 'robux_group_2', label: 'Robuk Via Group payout 2', emoji: '⚡' },
-    { id: 'robux_group_3', label: 'Robuk Via Group payout 3', emoji: '⚡' },
+    { id: 'robux_group_1', label: 'Robuk Via Group payout 1', emoji: '🌙' },
+    { id: 'robux_group_2', label: 'Robuk Via Group payout 2', emoji: '🌌' },
+    { id: 'robux_group_3', label: 'Robuk Via Group payout 3', emoji: '🪐' },
   ],
   [
     { id: 'fishit', label: 'Fish It', emoji: '🐟' },
