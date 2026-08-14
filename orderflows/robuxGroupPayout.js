@@ -18,6 +18,11 @@ const RATES = {
   2: 120,
   3: 120
 };
+const GROUP_EMOJIS = {
+  1: '🌙',
+  2: '🌌',
+  3: '🪐'
+};
 function formatIDR(amount) {
   return Math.round(amount).toLocaleString('id-ID');
 }
@@ -27,7 +32,7 @@ async function showPriceList(interaction, groupNum) {
   const banner = new AttachmentBuilder('./pricing.png');
 
   const embed = new EmbedBuilder()
-    .setTitle(`⚡ Robuk Via Group payout ${groupNum} – Price List`)
+    .setTitle(`${GROUP_EMOJIS[groupNum]} Robuk Via Group payout ${groupNum} – Price List`)
     .setColor(0x57F287)
     .setDescription(`
 ⏣ **100 Rbx** - ${formatIDR(100 * rate)} 💰
