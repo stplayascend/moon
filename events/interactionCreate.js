@@ -283,7 +283,9 @@ if (interaction.commandName === 'delete' || interaction.commandName === 'insert'
 
       if (id === 'robux_login')       return robuxLogin.showPriceList(interaction);
       if (id === 'robux_gamepass')     return robuxGamepass.showPriceList(interaction);
-      if (id === 'robux_group')        return robuxGroupPayout.showPriceList(interaction);
+      if (id === 'robux_group_1')      return robuxGroupPayout.showPriceList(interaction, 1);
+      if (id === 'robux_group_2')      return robuxGroupPayout.showPriceList(interaction, 2);
+      if (id === 'robux_group_3')      return robuxGroupPayout.showPriceList(interaction, 3);
       if (id === 'robux_username')     return robuxUsername.showPriceList(interaction);
       if (id === 'heartopia')          return heartopia.showPriceList(interaction);
       if (id === 'fishit')             return fishit.showPriceList(interaction);
