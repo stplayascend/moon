@@ -85,21 +85,21 @@ async function showPriceList(interaction) {
     .setColor(0x5865F2)
     .setDescription(`
 🏷️BEFORE TAX🏷️
-100 Rbx — 💵8.500
-500 Rbx — 💵42.500
-1.000 Rbx — 💵85.000
-10.000 Rbx — 💵850.000
+100 Rbx — 💵9.500
+500 Rbx — 💵47.500
+1.000 Rbx — 💵95.000
+10.000 Rbx — 💵950.000
+Rate: 95 / ⏣1
 
-📌Nominal lain Rate 85, cara hitung : jumlah robux yang ingin di beli x 85 = Harga
+📌Nominal lain Rate 95, cara hitung : jumlah robux yang ingin di beli x 95 = Harga
 
 🏷️AFTER TAX🏷️
 100 Rbx — 💵13.000
 500 Rbx — 💵65.000
 1.000 Rbx — 💵130.000
 10.000 Rbx — 💵1.300.000
-
+Rate: 130/ ⏣1
 📌Nominal lain Rate 130, cara hitung : jumlah robux yang ingin di beli x 130 = Harga
-
 ⚠️PEMBELIAN ROBUX VIA GAMEPASS MEMILIKI 5DAY DELAY⚠️
 `)
     .setImage('attachment://pricing.png')
