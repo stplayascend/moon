@@ -13,27 +13,28 @@ const session = require('./sessionManager');
 
 const FLOW = 'rgp';
 
-// ADD THESE:
 const RATES = {
-  po: 120
+  1: 125,
+  2: 120,
+  3: 120
 };
-
 function formatIDR(amount) {
   return Math.round(amount).toLocaleString('id-ID');
 }
-async function showPriceList(interaction) {
+async function showPriceList(interaction, groupNum) {
 
+  const rate = RATES[groupNum];
   const banner = new AttachmentBuilder('./pricing.png');
 
   const embed = new EmbedBuilder()
-    .setTitle('⚡ Robux Via Group Payout – Price List')
+    .setTitle(`⚡ Robuk Via Group payout ${groupNum} – Price List`)
     .setColor(0x57F287)
     .setDescription(`
-⏣ **100 Rbx** - 12.000 💰
-⏣ **500 Rbx** - 60.000 💰
-⏣ **1.000 Rbx** - 120.000 💰
-⏣ **10.000 Rbx** - 1.200.000 💰
-**Rate:** 120 / ⏣1
+⏣ **100 Rbx** - ${formatIDR(100 * rate)} 💰
+⏣ **500 Rbx** - ${formatIDR(500 * rate)} 💰
+⏣ **1.000 Rbx** - ${formatIDR(1000 * rate)} 💰
+⏣ **10.000 Rbx** - ${formatIDR(10000 * rate)} 💰
+**Rate:** ${rate} / ⏣1
 
 📌 **Requirements**
 - Wajib berada di group minimal **2 minggu**
@@ -58,7 +59,7 @@ Jika belum 2 minggu/not eligible silahkan tunggu sampai akun bisa di kirim payou
 
   const row = new ActionRowBuilder().addComponents(
     new ButtonBuilder()
-      .setCustomId('rgp_order_po')
+      .setCustomId(`rgp_order_po_${groupNum}`)
       .setLabel('Order')
       .setStyle(ButtonStyle.Primary)
       .setEmoji('🛒')
@@ -77,9 +78,10 @@ async function handleInteraction(interaction) {
   const id = interaction.customId;
   const userId = interaction.user.id;
 
-   if (id === 'rgp_order_po') {
-      session.setSession(userId, { flow: FLOW, step: 1, category: 'po' });
-      return showModal(interaction, 'po');
+   if (id.startsWith('rgp_order_po_')) {
+      const groupNum = id.replace('rgp_order_po_', '');
+      session.setSession(userId, { flow: FLOW, step: 1, category: groupNum });
+      return showModal(interaction, groupNum);
     }
 
   if (interaction.isModalSubmit() && interaction.customId === 'rgp_modal') {
@@ -113,7 +115,7 @@ async function showModal(interaction, category) {
 
   const modal = new ModalBuilder()
     .setCustomId('rgp_modal')
-    .setTitle('⚡ Robux Via Group Payout')
+    .setTitle(`⚡ Robuk Via Group payout ${category}`)
 
   modal.addComponents(
     new ActionRowBuilder().addComponents(
@@ -146,7 +148,7 @@ const s = session.getSession(interaction.user.id);
     .setTitle('🛍️ Detail Pembelian 🛍️')
     .setColor(0x5865F2)
     .setDescription(
-    `📄 **Produk:** ⚡ Robux Via Group Payout\n`+
+    `📄 **Produk:** ⚡ Robuk Via Group payout ${s.category}\n`+
     `👤 **Username:** ${s.username}\n` +
     `💰 **Jumlah Robux:** ${s.amount}\n` +
     `📊 **Rate:** ${rate} / ⏣1\n` +
@@ -184,7 +186,7 @@ async function createTicket(interaction) {
   const total = Number(s.amount) * rate;
 
   const summary = `
-**📋Produk:** Robux Via Group Payout
+**📋Produk:** Robuk Via Group payout ${s.category}
 **👤Username:** ${s.username}
 **💰Jumlah Robux:** ${s.amount} Robux
 **📊Rate:** ${rate} / ⏣1
@@ -199,7 +201,7 @@ async function createTicket(interaction) {
 • Setelah selesai, tiket akan ditutup oleh admin.`;
 
   await openTicket(interaction, {
-    orderType: 'Robux Via Group Payout',
+    orderType: `Robuk Via Group payout ${s.category}`,
     categoryKey: 'robuxGroupPayout',
     summaryText: summary,
     instructionText: instruction
