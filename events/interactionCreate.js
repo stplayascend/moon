@@ -281,32 +281,48 @@ if (interaction.commandName === 'delete' || interaction.commandName === 'insert'
 
     if (interaction.isButton()) {
 
-      if (id === 'robux_login')       return robuxLogin.showPriceList(interaction);
-      if (id === 'robux_gamepass')     return robuxGamepass.showPriceList(interaction);
-      if (id === 'robux_group_1')      return robuxGroupPayout.showPriceList(interaction, 1);
-      if (id === 'robux_group_2')      return robuxGroupPayout.showPriceList(interaction, 2);
-      if (id === 'robux_group_3')      return robuxGroupPayout.showPriceList(interaction, 3);
-      if (id === 'robux_username')     return robuxUsername.showPriceList(interaction);
-      if (id === 'heartopia')          return heartopia.showPriceList(interaction);
-      if (id === 'fishit')             return fishit.showPriceList(interaction);
-      if (id === 'boost_fishit')       return fishitBoost.showPriceList(interaction);
-      if (id === 'forge')              return forge.showPriceList(interaction);
-      if (id === 'abyss')              return abyss.showPriceList(interaction);
-      if (id === 'sawah')              return sawahIndo.showPriceList(interaction);
-      if (id === 'game_lain')          return gameLain.showPriceList(interaction);
-      if (id === 'kick_lucky_block')   return kickLuckyBlock.showPriceList(interaction);
-      if (id === 'discord_nitro')      return discordNitro.showPriceList(interaction);
-      if (id === 'slime_rng')          return slimeRng.showPriceList(interaction);
-      if (id === 'survive_apocalypse') return surviveApocalypse.showPriceList(interaction);
-      if (id === 'drag_drive')         return dragDriveSimulator.showPriceList(interaction);
-      if (id === 'dragon_adventures')  return dragonAdventures.showPriceList(interaction);
-      if (id === 'reseller_moonblox')  return resellerMoonblox.showPriceList(interaction);
+           const PANEL_HANDLERS = {
+        robux_login:         () => robuxLogin.showPriceList(interaction),
+        robux_gamepass:      () => robuxGamepass.showPriceList(interaction),
+        robux_group_1:       () => robuxGroupPayout.showPriceList(interaction, 1),
+        robux_group_2:       () => robuxGroupPayout.showPriceList(interaction, 2),
+        robux_group_3:       () => robuxGroupPayout.showPriceList(interaction, 3),
+        robux_username:      () => robuxUsername.showPriceList(interaction),
+        heartopia:           () => heartopia.showPriceList(interaction),
+        fishit:              () => fishit.showPriceList(interaction),
+        boost_fishit:        () => fishitBoost.showPriceList(interaction),
+        forge:               () => forge.showPriceList(interaction),
+        abyss:               () => abyss.showPriceList(interaction),
+        sawah:               () => sawahIndo.showPriceList(interaction),
+        game_lain:           () => gameLain.showPriceList(interaction),
+        kick_lucky_block:    () => kickLuckyBlock.showPriceList(interaction),
+        discord_nitro:       () => discordNitro.showPriceList(interaction),
+        slime_rng:           () => slimeRng.showPriceList(interaction),
+        survive_apocalypse:  () => surviveApocalypse.showPriceList(interaction),
+        drag_drive:          () => dragDriveSimulator.showPriceList(interaction),
+        dragon_adventures:   () => dragonAdventures.showPriceList(interaction),
+        reseller_moonblox:   () => resellerMoonblox.showPriceList(interaction),
+        payment_done:        () => handlePaymentDone(interaction),
+        payment_verify:      () => handlePaymentVerify(interaction),
+        order_done:          () => handleOrderDone(interaction),
+        ticket_close:        () => handleClose(interaction),
+      };
 
-      if (id === 'payment_done')       return handlePaymentDone(interaction);
-      if (id === 'payment_verify')     return handlePaymentVerify(interaction);
-      if (id === 'order_done')         return handleOrderDone(interaction);
-
-      if (id === 'ticket_close') return handleClose(interaction);
+      if (PANEL_HANDLERS[id]) {
+        try {
+          await PANEL_HANDLERS[id]();
+        } catch (err) {
+          console.error(`[Button] ${id} error:`, err);
+          const msg = { content: '❌ Something went wrong. Please try again.', ephemeral: true };
+          try {
+            if (interaction.replied || interaction.deferred) {
+              await interaction.followUp(msg);
+            } else if (err.code !== 10062) {
+              await interaction.reply(msg);
+            }
+          } catch (_) {}
+        }
+      }
     }
 
     /* ─────────────────────────────
