@@ -18,9 +18,12 @@ const FLOW = 'ru';
 /* ───────────────────────────────────── */
 
 async function loadPackages() {
-  const base        = items.robuxUsernamePackages ?? [];
-  const disabledRaw = await getDisabledItems('robuxUsername', 'packages');
-  const enabledRaw  = await getEnabledItems('robuxUsername', 'packages');
+  const base = items.robuxUsernamePackages ?? [];
+
+  const [disabledRaw, enabledRaw] = await Promise.all([
+    getDisabledItems('robuxUsername', 'packages'),
+    getEnabledItems('robuxUsername', 'packages'),
+  ]);
 
   const disabledSet = new Set(disabledRaw.map(v => v.toLowerCase().trim()));
 
