@@ -199,43 +199,48 @@ async function createTicket(interaction, { orderType, categoryKey, summaryText, 
     extraRole ? `<@&${extraRole}>` : '',
   ].join(' ');
 
-  await channel.send({
-    content: mentions,
-    embeds: [welcomeEmbed],
-    components: [closeRow],
-    allowedMentions: {
-      users: [user.id],
-      roles: [
-        ...(config.adminRoleId ? [config.adminRoleId] : []),
-        ...(extraRole ? [extraRole] : []),
-      ],
-    },
-  });
+    try {
+    await channel.send({
+      content: mentions,
+      embeds: [welcomeEmbed],
+      components: [closeRow],
+      allowedMentions: {
+        users: [user.id],
+        roles: [
+          ...(config.adminRoleId ? [config.adminRoleId] : []),
+          ...(extraRole ? [extraRole] : []),
+        ],
+      },
+    });
 
-  await sendPaymentInstructions(channel, user);
+    await sendPaymentInstructions(channel, user);
+  } catch (error) {
+    console.error('[createTicket] post-create send failed:', error);
+  }
+
   try {
-  const ticketLink = `https://discord.com/channels/${guild.id}/${channel.id}`;
+    const ticketLink = `https://discord.com/channels/${guild.id}/${channel.id}`;
 
-  const dmEmbed = new EmbedBuilder()
-    .setColor(0x5865F2)
-    .setTitle('📦 Order Summary')
-    .setDescription(
-      `Order sudah di buat! check ticket nya di sini:\n${ticketLink}`
-    )
-    .addFields({
-      name: '🛍️ Ringkasan Pesanan',
-      value: summaryText.trim().slice(0, 1024),
-    })
-    .setFooter({ text: 'MoonBlox Store' })
-    .setTimestamp();
+    const dmEmbed = new EmbedBuilder()
+      .setColor(0x5865F2)
+      .setTitle('📦 Order Summary')
+      .setDescription(
+        `Order sudah di buat! check ticket nya di sini:\n${ticketLink}`
+      )
+      .addFields({
+        name: '🛍️ Ringkasan Pesanan',
+        value: summaryText.trim().slice(0, 1024),
+      })
+      .setFooter({ text: 'MoonBlox Store' })
+      .setTimestamp();
 
-  await user.send({
-    embeds: [dmEmbed],
-  });
+    await user.send({
+      embeds: [dmEmbed],
+    });
 
-} catch (error) {
-  console.error('[DM ERROR]:', error);
-}
+  } catch (error) {
+    console.error('[DM ERROR]:', error);
+  }
 
   await interaction.editReply({
     content: `✅ Ticket created → ${channel}`,
