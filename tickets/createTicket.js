@@ -192,24 +192,23 @@ async function createTicket(interaction, { orderType, categoryKey, summaryText, 
       .setStyle(ButtonStyle.Danger)
       .setEmoji('🔒')
   );
+    const roleIds = [...new Set(
+    [config.adminRoleId, extraRole].filter(Boolean)
+  )];
 
   const mentions = [
     `<@${user.id}>`,
-    config.adminRoleId ? `<@&${config.adminRoleId}>` : '',
-    extraRole ? `<@&${extraRole}>` : '',
+    ...roleIds.map(r => `<@&${r}>`),
   ].join(' ');
 
-    try {
+  try {
     await channel.send({
       content: mentions,
       embeds: [welcomeEmbed],
       components: [closeRow],
       allowedMentions: {
         users: [user.id],
-        roles: [
-          ...(config.adminRoleId ? [config.adminRoleId] : []),
-          ...(extraRole ? [extraRole] : []),
-        ],
+        roles: roleIds,
       },
     });
 
